@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
+import { FlashMessagesModule } from 'angular2-flash-messages';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -14,8 +15,8 @@ import { ValidateService } from './services/validate.service';
 
 const appRoutes: Routes = [
   { path: '', component: ProfileComponent },
-  { path: '/login', component: LoginComponent },
-  { path: '/register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   { path: '**', redirectTo: '/', pathMatch: 'full' }
 ];
 
@@ -31,6 +32,7 @@ const appRoutes: Routes = [
     BrowserModule,
     FormsModule,
     HttpModule,
+    FlashMessagesModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [ValidateService],
