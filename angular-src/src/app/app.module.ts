@@ -10,14 +10,19 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { GameRootComponent } from './components/game-root/game-root.component';
+import { PlayerListComponent } from './components/player-list/player-list.component';
 
 import { ValidateService } from './services/validate.service';
+import { OngoingGamesComponent } from './components/ongoing-games/ongoing-games.component';
 
 const appRoutes: Routes = [
   { path: '', component: ProfileComponent },
+  { path: 'profile', component: ProfileComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: '**', redirectTo: '/', pathMatch: 'full' }
+  { path: 'game', component: GameRootComponent },
+  { path: ':other', redirectTo: ''}
 ];
 
 @NgModule({
@@ -26,7 +31,10 @@ const appRoutes: Routes = [
     NavbarComponent,
     ProfileComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    GameRootComponent,
+    PlayerListComponent,
+    OngoingGamesComponent
   ],
   imports: [
     BrowserModule,

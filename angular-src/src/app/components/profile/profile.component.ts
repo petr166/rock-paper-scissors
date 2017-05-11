@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
   selector: 'app-profile',
@@ -11,7 +12,8 @@ export class ProfileComponent implements OnInit {
   user: any;
   changePassForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private flashMessage: FlashMessagesService,
+              private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     // pull user data from backend
@@ -21,7 +23,7 @@ export class ProfileComponent implements OnInit {
       username: "petru",
       avatar: "https://api.adorable.io/avatars/140/abott@adorable.png",
       played: 10,
-      wins: 8
+      wins: 6
     };
     this.user.loses = this.calcLoses(this.user);
     this.user.winRatio = this.calcWinRatio(this.user);
@@ -35,7 +37,7 @@ export class ProfileComponent implements OnInit {
 
   onChangePassSubmit() {
     console.log(this.changePassForm.value);
-
+    this.flashMessage.show('Password changed successfully.', {cssClass: 'alert-success', timeout: 3000});
     this.changePassForm.setValue({ oldPass: "", newPass: "" });
   }
 

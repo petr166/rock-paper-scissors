@@ -29,6 +29,8 @@
 
   <h2 class="page-header">Change Password</h2>
 
+  <flash-messages></flash-messages>
+
   <form [formGroup]="changePassForm" (ngSubmit)="onChangePassSubmit()">
     <div class="form-group">
       <label for="oldPass">Old password</label>
@@ -46,6 +48,4 @@
   <h2 class="page-header">Delete account</h2>
 
   <button class="btn btn-danger btn-lg" type="button" name="delete">Delete</button>
-
-  <br>
 </div>
