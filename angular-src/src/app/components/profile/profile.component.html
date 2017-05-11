@@ -1,3 +1,51 @@
-<p>
-  profile works!
-</p>
+<div class="container">
+
+  <h2 class="page-header no-border clearfix">
+    <img class="pull-left" src="{{user.avatar}}" alt="Avatar" width="140px" height="140px">
+    <div class="acc-info">
+      <p>{{user.name}}</p>
+      <p class="small">#{{user.username}}</p>
+      <p class="small">{{user.email}}</p>
+    </div>
+  </h2>
+
+  <h2 class="page-header">Statistics</h2>
+
+  <ul class="list-group">
+    <li class="list-group-item"><strong>Games played</strong>&nbsp;{{user.played}}</li>
+    <li class="list-group-item"><strong>Wins</strong>&nbsp;{{user.wins}}</li>
+    <li class="list-group-item"><strong>Loses</strong>&nbsp;{{user.loses}}</li>
+    <li class="list-group-item clearfix">
+      <div class="pull-left">
+        <strong>Win ratio</strong>&nbsp;
+      </div>
+      <div class="progress">
+        <div id="progressBar" class="progress-bar" [style.width]="user.winRatio" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+          {{user.winRatio}}
+        </div>
+      </div>
+    </li>
+  </ul>
+
+  <h2 class="page-header">Change Password</h2>
+
+  <form [formGroup]="changePassForm" (ngSubmit)="onChangePassSubmit()">
+    <div class="form-group">
+      <label for="oldPass">Old password</label>
+      <input formControlName="oldPass" type="password" id="oldPass" class="form-control" name="oldPass">
+    </div>
+
+    <div class="form-group">
+      <label for="newPass">New password</label>
+      <input formControlName="newPass" type="password" id="newPass" class="form-control" name="newPass">
+    </div>
+
+    <button [disabled]="changePassForm.invalid" type="submit" class="btn btn-primary">Change password</button>
+  </form>
+
+  <h2 class="page-header">Delete account</h2>
+
+  <button class="btn btn-danger btn-lg" type="button" name="delete">Delete</button>
+
+  <br>
+</div>
