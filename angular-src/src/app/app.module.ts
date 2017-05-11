@@ -7,9 +7,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+
+import { ValidateService } from './services/validate.service';
 
 const appRoutes: Routes = [
   { path: '', component: ProfileComponent },
+  { path: '/login', component: LoginComponent },
+  { path: '/register', component: RegisterComponent },
   { path: '**', redirectTo: '/', pathMatch: 'full' }
 ];
 
@@ -17,7 +23,9 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     NavbarComponent,
-    ProfileComponent
+    ProfileComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +33,7 @@ const appRoutes: Routes = [
     HttpModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [],
+  providers: [ValidateService],
   bootstrap: [AppComponent]
 })
 
