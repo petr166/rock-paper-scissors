@@ -59,6 +59,8 @@
    .box {
       margin: 0 10px;
       padding: 40px;
+      width: 152px;
+      height: 152px;
       @include border-radius(20px);
       @include box-shadow($x: 1px, $y: 1px);
 

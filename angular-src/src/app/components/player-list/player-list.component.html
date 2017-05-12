@@ -4,7 +4,7 @@
   </li>
 </ul>
 <ul class="list-group ul-body players">
-  <li *ngFor="let player of playerList;" class="list-group-item">
+  <li (click)="askToPlay(player.nickname)" *ngFor="let player of playerList;" class="list-group-item">
     <a><span class="label label-success" [ngClass]="{'label-danger':player.inMatch }"></span>
       {{player.nickname}}
     </a>

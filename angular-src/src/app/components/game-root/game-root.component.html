@@ -39,16 +39,16 @@
       </div>
 
       <div class="choices-container">
-        <div class="btn btn-warning box">
-          <i class="fa fa-hand-rock-o fa-5x" aria-hidden="true"></i>
+        <div (click)="selectChoice(choice)" *ngFor="let choice of choices;" class="btn btn-warning box">
+          <i class="fa fa-hand-{{choice}}-o fa-5x" aria-hidden="true"></i>
         </div>
 
-       <div class="btn btn-warning box">
-          <i class="fa fa-hand-paper-o fa-5x" aria-hidden="true"></i>
+       <div id="vsBox" *ngIf="choices.length == 1" class="btn btn-warning box">
+          <i class="fa fa-arrows-h fa-5x" aria-hidden="true"></i>
         </div>
 
-       <div class="btn btn-warning box">
-          <i class="fa fa-hand-scissors-o fa-5x" aria-hidden="true"></i>
+       <div *ngIf="choices.length == 1" class="btn btn-warning box">
+          <i class="fa fa-hand-{{oppChoice}}-o fa-5x" aria-hidden="true"></i>
         </div>
       </div>
 

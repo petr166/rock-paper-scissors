@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserInteractionService } from '../../services/user-interaction.service';
 
 @Component({
   selector: 'app-player-list',
@@ -9,7 +10,7 @@ export class PlayerListComponent implements OnInit {
   playerList: Object [];
 
 
-  constructor() {
+  constructor(private userService: UserInteractionService) {
 
   }
 
@@ -35,5 +36,10 @@ export class PlayerListComponent implements OnInit {
       {"nickname":"Random", "inMatch":false}
     ]
   }
+
+  askToPlay(player){
+    this.userService.askToPlay(player);
+  }
+
 
 }
