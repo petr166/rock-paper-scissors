@@ -1,0 +1,16 @@
+ul{
+  border-radius: 10px;
+  box-shadow: 6px 6px 10px #888888;
+}
+.ul-heading{
+  margin-bottom: -12px;
+
+  a{
+    height: 57px;
+  }
+}
+.ul-body{
+  overflow: scroll;
+  max-height: 500px;
+  max-height: 70vh;
+}
