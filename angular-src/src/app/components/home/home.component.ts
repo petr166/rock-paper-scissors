@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ValidateService } from '../../services/validate.service';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +7,7 @@ import { ValidateService } from '../../services/validate.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private validateService: ValidateService) { }
+  constructor() { }
 
   ngOnInit() {
   }
