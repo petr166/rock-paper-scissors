@@ -1,11 +1,13 @@
+@import "../../../assets/sass/to-import.scss";
+
 ul{
   border-radius: 10px;
-  box-shadow: 6px 6px 10px #888888;
+  @include box-shadow($x: 6px, $y: 6px, $blur: 10px, $color: #888888);
 }
 .ul-heading{
   margin-bottom: -12px;
 
-  a{
+  li{
     height: 57px;
   }
 }
