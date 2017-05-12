@@ -12,12 +12,12 @@
   <h2 class="page-header">Statistics</h2>
 
   <ul class="list-group">
-    <li class="list-group-item"><strong>Games played</strong>&nbsp;<span class="badge">{{user.played}}</span></li>
+    <li class="list-group-item"><strong>Games played</strong>&nbsp;<span class="badge pull-right">{{user.played}}</span></li>
     <li class="list-group-item"><strong>Wins</strong>&nbsp;<span class="badge">{{user.wins}}</span></li>
     <li class="list-group-item"><strong>Loses</strong>&nbsp;<span class="badge">{{user.loses}}</span></li>
     <li class="list-group-item clearfix">
       <div class="pull-left">
-        <strong style="margin-right: 50px;">Win ratio</strong>&nbsp;
+        <strong>Win ratio</strong>&nbsp;
       </div>
       <div class="progress">
         <div id="progressBar" class="progress-bar" [style.width]="user.winRatio" role="progressbar" aria-valuemin="0" aria-valuemax="100">
