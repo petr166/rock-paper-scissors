@@ -50,4 +50,28 @@
     }
   }
 
+  .choices-container {
+    @include display-flex();
+    @include flex-flow(row, nowrap);
+    @include justify-content(space-around);
+    margin-top: 15vh;
+
+   .box {
+      margin: 0 10px;
+      padding: 40px;
+      @include border-radius(20px);
+      @include box-shadow($x: 1px, $y: 1px);
+
+     i {
+        @include transition(‘transform .1s ease-in 0s’);
+      }
+
+     &:hover {
+        & i {
+          @include transform(scale(1.2));
+        }
+      }
+    }
+  }
+
 }
