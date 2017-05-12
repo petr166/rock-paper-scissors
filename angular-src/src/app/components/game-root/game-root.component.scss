@@ -63,7 +63,7 @@
       @include box-shadow($x: 1px, $y: 1px);
 
      i {
-        @include transition(‘transform .1s ease-in 0s’);
+        @include transition(‘transform .2s ease-in 0s’);
       }
 
      &:hover {
@@ -73,5 +73,22 @@
       }
     }
   }
+}
 
+@media screen and (min-width: 769px){
+  .game-content{
+    .choices-container{
+      -webkit-box-pack: center;
+      -moz-box-pack: center;
+      -webkit-flex-pack: center;
+      -ms-flex-pack: center;
+      -moz-justify-content: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+
+        .box{
+          margin: 0 3vw;
+        }
+    }
+  }
 }
