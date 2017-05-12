@@ -15,9 +15,10 @@ import { PlayerListComponent } from './components/player-list/player-list.compon
 
 import { ValidateService } from './services/validate.service';
 import { OngoingGamesComponent } from './components/ongoing-games/ongoing-games.component';
+import { HomeComponent } from './components/home/home.component';
 
 const appRoutes: Routes = [
-  { path: '', component: ProfileComponent },
+  { path: '', component: HomeComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
@@ -34,7 +35,8 @@ const appRoutes: Routes = [
     RegisterComponent,
     GameRootComponent,
     PlayerListComponent,
-    OngoingGamesComponent
+    OngoingGamesComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
