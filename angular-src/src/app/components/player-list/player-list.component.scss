@@ -1,3 +1,5 @@
+@import "../../../assets/sass/to-import.scss";
+
 .label {
   margin-right: 10px;
   display: inline-block;
@@ -26,12 +28,12 @@ a:hover, a:focus {
 
 ul{
   border-radius: 10px;
-  box-shadow: 6px 6px 10px #888888;
+  @include box-shadow($x: 6px, $y: 6px, $blur: 10px, $color: #888888);
 }
 .ul-heading{
   margin-bottom: -12px;
 
-  a{
+  li{
     height: 57px;
     &:hover{
       background-color: white;
@@ -41,5 +43,5 @@ ul{
 .ul-body{
   overflow: scroll;
   max-height: 500px;
-  max-height: 70vh;
+  max-height: 67vh;
 }

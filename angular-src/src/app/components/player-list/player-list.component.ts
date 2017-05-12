@@ -26,6 +26,12 @@ export class PlayerListComponent implements OnInit {
       {"nickname":"Random", "inMatch":false},
       {"nickname":"Random", "inMatch":false},
       {"nickname":"Random", "inMatch":false},
+      {"nickname":"Random", "inMatch":false},
+      {"nickname":"Random", "inMatch":false},
+      {"nickname":"Random", "inMatch":false},
+      {"nickname":"Random", "inMatch":false},
+      {"nickname":"Random", "inMatch":false},
+      {"nickname":"Random", "inMatch":false},
       {"nickname":"Random", "inMatch":false}
     ]
   }
