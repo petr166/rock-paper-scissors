@@ -1,3 +1,12 @@
-<p>
-  player-list works!
-</p>
+<ul class="list-group ul-heading">
+  <a class="list-group-item">
+    <h4 class="list-group-item-heading text-center">Active Players</h4>
+  </a>
+</ul>
+<ul class="list-group ul-body players">
+  <li *ngFor="let player of playerList;" class="list-group-item">
+    <a><span class="label label-success" [ngClass]="{'label-danger':player.inMatch }"></span>
+      {{player.nickname}}
+    </a>
+  </li>
+</ul>

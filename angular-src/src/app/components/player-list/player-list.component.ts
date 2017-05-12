@@ -6,10 +6,28 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./player-list.component.scss']
 })
 export class PlayerListComponent implements OnInit {
+  playerList: Object [];
 
-  constructor() { }
+
+  constructor() {
+
+  }
 
   ngOnInit() {
+    this.playerList = [
+      {"nickname":"Player1", "inMatch":false},
+      {"nickname":"Dana213", "inMatch":false},
+      {"nickname":"Petr166", "inMatch":true},
+      {"nickname":"AndreiDog", "inMatch":true},
+      {"nickname":"Random", "inMatch":false},
+      {"nickname":"Random", "inMatch":false},
+      {"nickname":"Random", "inMatch":false},
+      {"nickname":"Random", "inMatch":false},
+      {"nickname":"Random", "inMatch":false},
+      {"nickname":"Random", "inMatch":false},
+      {"nickname":"Random", "inMatch":false},
+      {"nickname":"Random", "inMatch":false}
+    ]
   }
 
 }
