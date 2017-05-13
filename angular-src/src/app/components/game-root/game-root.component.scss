@@ -17,7 +17,6 @@
       margin: 0 20px;
 
       .jumbotron {
-        background-color: #ffffff;
         margin: 0;
         padding: 30px 4px;
 
@@ -37,12 +36,14 @@
       @include box-shadow($x: 1px, $y: 1px);
 
       .number {
+        height: 64px;
         padding: 10px 19px;
         border-bottom: 2px solid #f1f1f1;
         font-size: 30px;
       }
 
       .name {
+        height: 45px;
         font-size: 18px;
         padding: 10px 19px;
         overflow-x: hidden;

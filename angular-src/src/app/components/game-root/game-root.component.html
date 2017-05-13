@@ -12,34 +12,41 @@
         <div class="box">
           <div class="well score">
             <div class="number">
-              <strong>0</strong>
+              <strong>{{myScore}}</strong>
             </div>
             <div class="name">
-              petru
+              <p>petru</p>
             </div>
           </div>
         </div>
 
         <div class="box message-box">
-          <div class="jumbotron">
-            <h4>Please choose an opponent from the left</h4>
+          <div class="jumbotron" [ngStyle]="{'background-color': resultColor}">
+            <h4 *ngIf="!oppConnected">Please choose an opponent from the left</h4>
+            <ng-container *ngIf="oppConnected">
+              <h4 *ngIf="resultColor == '#ffffff'">Game on</h4>
+              <h4 *ngIf="resultColor == '#73a839'">Win</h4>
+              <h4 *ngIf="resultColor == '#c71c22'">Lose</h4>
+              <h4 *ngIf="resultColor == '#033c73'">Draw</h4>
+            </ng-container>
           </div>
         </div>
 
         <div class="box">
           <div class="well score">
             <div class="number">
-              <strong>1</strong>
+              <strong *ngIf="oppConnected">{{oppScore}}</strong>
             </div>
             <div class="name">
-              dana
+              <p *ngIf="oppConnected">dana</p> <!--TODO: style this properly when !oppConnected-->
             </div>
           </div>
         </div>
       </div>
 
-      <div class="choices-container">
-        <div (click)="selectChoice(choice)" *ngFor="let choice of choices;" class="btn btn-warning box">
+      <div *ngIf="oppConnected" class="choices-container">
+        <div (click)="selectChoice(choice)" *ngFor="let choice of choices;" class="btn btn-warning box"
+             [attr.data-toggle]="myScore == 2 || oppScore == 2 ? 'modal' : ''" data-target="#gameOver">
           <i class="fa fa-hand-{{choice}}-o fa-5x myChoices" aria-hidden="true"></i>
         </div>
 
@@ -64,10 +71,26 @@
 <div id="waitForPlayer" class="modal">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-body text-center">
+      <div *ngIf="!oppConnected" class="modal-body text-center">
         <h2>Waiting for opponent</h2><br />
         <i class="fa fa-spinner fa-pulse fa-3x fa-fw" style="color: #317eac;"></i><br /><br />
         <button class="btn btn-primary" data-dismiss="modal">Cancel</button>
+      </div>
+      <div *ngIf="oppConnected" class="modal-body text-center">
+        <h2>Opponent connected</h2><br />
+        <button class="btn btn-primary" data-dismiss="modal">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="gameOver" class="modal"><!-- TODO: Add 1 sec timeout before showing this  -->
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <h2 *ngIf="myScore == 2">You won !!!</h2><br />
+        <h2 *ngIf="oppScore == 2">You lost !!!</h2><br />
+        <button (click)="endGame();selectChoice(rock);" class="btn btn-primary" data-dismiss="modal">Ok</button>
       </div>
     </div>
   </div>

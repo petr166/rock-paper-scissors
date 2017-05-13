@@ -7,13 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GameRootComponent implements OnInit {
   private choices: string[];
+  private oppConnected: boolean = false;
   private oppChoice: string;
+  private resultColor: string = '#ffffff';
+  private myScore: number;
+  private oppScore: number;
 
   constructor() { }
 
   ngOnInit() {
     this.initializeChoices();
+    this.oppConnected = true;
     this.oppChoice = 'rock';
+    this.myScore = 0;
+    this.oppScore = 0;
   }
 
   initializeChoices(){
@@ -25,8 +32,10 @@ export class GameRootComponent implements OnInit {
     if(this.choices.length == 3){
       this.toggleOppChoice();
       this.choices = [choice];
-    }else{ // TODO: remove this
-      this.initializeChoices();
+      this.resultColor = this.getResult(choice);
+    }else{
+      this.initializeChoices();// TODO: remove this
+      this.resultColor = '#ffffff';
     }
   }
 
@@ -41,5 +50,21 @@ export class GameRootComponent implements OnInit {
     }
   }
 
+  getResult(myChoice){
+    if((myChoice == 'rock' && this.oppChoice == 'paper') ||
+       (myChoice == 'paper' && this.oppChoice == 'scissors') ||
+       (myChoice == 'scissors' && this.oppChoice == 'rock')){
+         this.oppScore ++;
+         return '#c71c22'; //lose
+    }else if(myChoice == this.oppChoice){
+      return '#033c73'; //draw
+    }
+    this.myScore ++;
+    return '#73a839'; //win
+  }
 
+  endGame(){
+    this.myScore = 0;
+    this.oppScore = 0;
+  }
 }
