@@ -4,8 +4,11 @@
   </li>
 </ul>
 <ul class="list-group ul-body players">
-  <li (click)="askToPlay(player.nickname)" *ngFor="let player of playerList;" class="list-group-item">
-    <a><span class="label label-success" [ngClass]="{'label-danger':player.inMatch }"></span>
+  <li class="list-group-item" *ngFor="let player of playerList;"
+      [attr.data-toggle]="player.inMatch ? '' : 'modal'" data-target="#waitForPlayer"
+      data-backdrop="static" data-keyboard="false"
+      [ngClass]="{'disabled':player.inMatch}">
+    <a><span class="label label-success" [ngClass]="{'label-danger':player.inMatch}"></span>
       {{player.nickname}}
     </a>
   </li>

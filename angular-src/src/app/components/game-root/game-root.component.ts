@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { UserInteractionService } from '../../services/user-interaction.service';
 
 @Component({
   selector: 'app-game-root',
@@ -10,7 +9,7 @@ export class GameRootComponent implements OnInit {
   private choices: string[];
   private oppChoice: string;
 
-  constructor(private userService: UserInteractionService) { }
+  constructor() { }
 
   ngOnInit() {
     this.initializeChoices();

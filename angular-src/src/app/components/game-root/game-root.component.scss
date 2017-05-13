@@ -53,23 +53,23 @@
   .choices-container {
     @include display-flex();
     @include flex-flow(row, nowrap);
-    @include justify-content(space-around);
+    @include justify-content(center);
     margin-top: 15vh;
 
    .box {
-      margin: 0 10px;
+      margin: 0 3vw;
       padding: 40px;
       width: 152px;
       height: 152px;
       @include border-radius(20px);
       @include box-shadow($x: 1px, $y: 1px);
 
-     i {
+     i.myChoices {
         @include transition(‘transform .2s ease-in 0s’);
       }
 
      &:hover {
-        & i {
+        & i.myChoices {
           @include transform(scale(1.2));
         }
       }
@@ -77,20 +77,31 @@
   }
 }
 
-@media screen and (min-width: 769px){
-  .game-content{
-    .choices-container{
-      -webkit-box-pack: center;
-      -moz-box-pack: center;
-      -webkit-flex-pack: center;
-      -ms-flex-pack: center;
-      -moz-justify-content: center;
-      -webkit-justify-content: center;
-      justify-content: center;
+@media screen and (max-width: 1200px){
+  .game-content {
+    .choices-container {
+      .box {
+        padding: 13px;
+        width: 100px;
+        height: 100px;
 
-        .box{
-          margin: 0 3vw;
+        i{
+          -webkit-transform: scale(0.6);
+             -moz-transform: scale(0.6);
+              -ms-transform: scale(0.6);
+               -o-transform: scale(0.6);
+                  transform: scale(0.6);
         }
+        &:hover {
+           & i.myChoices {
+             -webkit-transform: scale(0.8);
+                -moz-transform: scale(0.8);
+                 -ms-transform: scale(0.8);
+                  -o-transform: scale(0.8);
+                     transform: scale(0.8);
+          }
+        }
+      }
     }
   }
 }

@@ -40,7 +40,7 @@
 
       <div class="choices-container">
         <div (click)="selectChoice(choice)" *ngFor="let choice of choices;" class="btn btn-warning box">
-          <i class="fa fa-hand-{{choice}}-o fa-5x" aria-hidden="true"></i>
+          <i class="fa fa-hand-{{choice}}-o fa-5x myChoices" aria-hidden="true"></i>
         </div>
 
        <div id="vsBox" *ngIf="choices.length == 1" class="btn btn-warning box">
@@ -54,10 +54,21 @@
 
     </div>
 
-
     <div class="col-sm-3 col-lg-2">
       <app-ongoing-games></app-ongoing-games>
     </div>
 
+  </div>
+</div>
+
+<div id="waitForPlayer" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <h2>Waiting for opponent</h2><br />
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw" style="color: #317eac;"></i><br /><br />
+        <button class="btn btn-primary" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
   </div>
 </div>
