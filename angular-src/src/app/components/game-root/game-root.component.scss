@@ -105,3 +105,59 @@
     }
   }
 }
+
+@media screen and (max-width: 767px){
+  .col-sm-3{
+    display: none;
+  }
+}
+
+@media screen and (max-width: 360px){
+  .game-content{
+    .score-board{
+      .message-box{
+        .jumbotron{
+          h4{
+            margin-top: -13px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 320px){
+  .game-content{
+    .choices-container{
+      .box{
+        padding: 3px;
+        width: 77px;
+        height: 77px;
+
+        i{
+          -webkit-transform: scale(0.5);
+          -moz-transform: scale(0.5);
+          -ms-transform: scale(0.5);
+          -o-transform: scale(0.5);
+          transform: scale(0.5);
+        }
+      }
+
+    }
+    .score-board{
+      .score{
+        .name{
+          font-size: 15px;
+        }
+      }
+      .message-box{
+        .jumbotron{
+          h4{
+            font-size: 15px;
+            margin-top: 6px;
+          }
+        }
+      }
+    }
+  }
+}
