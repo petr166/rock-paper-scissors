@@ -7,13 +7,72 @@
   margin-top: 50px;
 }
 
-@media only screen and (max-width: 991.99px) {
+@media only screen and (max-width: 767px) {
   .col-md-3 {
-    text-align: justify;
-    margin-bottom: 40px;
+    text-align: left;
+    & p a {
+      margin: 0px;
+    }
   }
 
   .row {
-    margin-top: 0;
+    margin-top: 0px;
   }
 }
+
+@media only screen and (min-width: 768px) {
+  h1 {
+    font-size: 38px;
+  }
+
+  .col-md-3 {
+    text-align: left;
+    & p a {
+      margin: 0px;
+    }
+  }
+
+  .row {
+    margin-top: 0px;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .col-md-3 {
+    text-align: center;
+  }
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1366px) and (orientation: portrait){
+  p, a, span {
+    font-size: 22px;
+  }
+
+  h3 {
+    font-size: 30px;
+  }
+
+  h1 {
+    font-size: 46px;
+  }
+
+  .jumbotron p {
+    font-size: 28px;
+  }
+
+  .col-md-3 {
+    width: 50%;
+  }
+}
+
+// 1024 - ipad landscape
+
+// 768 - ipad
+
+// 414 iphone 6plus
+
+// 375 iphone 6
+
+// 360 android
+
+// 320 iphone 5
