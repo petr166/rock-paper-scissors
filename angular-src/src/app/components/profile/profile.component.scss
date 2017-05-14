@@ -27,5 +27,72 @@ strong {
 }
 
 .list-group {
-  width: 40vw;
+  width: 35vw;
+}
+
+@media only screen and (max-width: 1024px) {
+  strong {
+    width: 13vw;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .list-group {
+    width: 45vw;
+  }
+
+  strong {
+    width: 18vw;
+  }
+}
+
+@media only screen and (max-width: 667px) and (orientation: landscape) {
+  .list-group {
+    width: 95vw;
+  }
+
+  strong {
+    width: 26vw;
+  }
+}
+
+@media only screen and (max-width: 414px) {
+  .page-header .pull-left {
+    float: none !important;
+  }
+
+  img {
+    display: inherit;
+    margin: auto;
+  }
+
+  .acc-info {
+    display: initial;
+  }
+
+  strong {
+    width: 30vw;
+  }
+
+  .list-group {
+    width: 95vw;
+  }
+
+  .progress {
+    width: 65%;
+  }
+
+  .list-group-item {
+    padding-left: 0px;
+  }
+}
+
+@media only screen and (max-width: 360px) {
+  strong {
+    width: 40vw;
+  }
+
+  .progress {
+    width: 53%;
+  }
 }
