@@ -9,20 +9,20 @@
         <span class="icon-bar"></span>
       </button>
 
-      <a [routerLink]="['']" class="navbar-brand">GameApp</a>
+      <a [routerLink]="['']" class="navbar-brand" (click)="onNavigate()">GameApp</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-left">
-        <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['']">Home</a></li>
-        <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/game']">Game</a></li>
+        <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" (click)="onNavigate()"><a [routerLink]="['']">Home</a></li>
+        <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" (click)="onNavigate()"><a [routerLink]="['/game']">Game</a></li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
-        <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/login']">Login</a></li>
-        <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/register']">Register</a></li>
-        <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['/profile']">Profile</a></li>
+        <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" (click)="onNavigate()"><a [routerLink]="['/login']">Login</a></li>
+        <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" (click)="onNavigate()"><a [routerLink]="['/register']">Register</a></li>
+        <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" (click)="onNavigate()"><a [routerLink]="['/profile']">Profile</a></li>
         <li><a (click)="onLogoutClick()" href="#">Logout</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
