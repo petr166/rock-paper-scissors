@@ -1,7 +1,21 @@
 <div class="container-fluid">
   <div class="row">
 
-    <div class="col-sm-3 col-lg-2">
+    <div id="statusBar" class="panel panel-default hidden-atw">
+      <div class="panel-body text-center clearfix">
+        <button class="btn btn-warning btn-sm pull-left" type="button" name="players" (click)="onPlayersClick()">
+          <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+          Players
+        </button>
+
+        <button class="btn btn-warning btn-sm pull-right" type="button" name="matches" (click)="onMatchesClick()">
+          Matches
+          <i class="fa fa-futbol-o" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="col-sm-3 col-lg-2 list-container player-list-container" [ngClass]="{'open': showPlayerList}">
       <app-player-list></app-player-list>
     </div>
 
@@ -61,7 +75,7 @@
 
     </div>
 
-    <div class="col-sm-3 col-lg-2">
+    <div class="col-sm-3 col-lg-2 list-container match-list-container" [ngClass]="{'open': showMatchList}">
       <app-ongoing-games></app-ongoing-games>
     </div>
 

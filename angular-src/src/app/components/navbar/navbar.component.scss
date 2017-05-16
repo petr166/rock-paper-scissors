@@ -1,5 +1,12 @@
-@media only screen and (min-width: 1024px) and (max-width: 1366px) and (orientation: portrait){
-  a {
-    font-size: 22px;
-  }
+// !! nu pastram asta pls
+// @media only screen and (min-width: 1024px) and (max-width: 1366px) and (orientation: portrait){
+//   a {
+//     font-size: 22px;
+//   }
+// }
+
+@import "../../../assets/sass/to-import.scss";
+
+.navbar-default {
+  @include box-shadow($x: 0px, $y: 2px, $blur: 10px);
 }

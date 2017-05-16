@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './game-root.component.html',
   styleUrls: ['./game-root.component.scss']
 })
+
 export class GameRootComponent implements OnInit {
   private choices: string[];
   private oppConnected: boolean = false;
@@ -12,6 +13,8 @@ export class GameRootComponent implements OnInit {
   private resultColor: string = '#ffffff';
   private myScore: number;
   private oppScore: number;
+  private showPlayerList: boolean;
+  private showMatchList: boolean;
 
   constructor() { }
 
@@ -21,6 +24,8 @@ export class GameRootComponent implements OnInit {
     this.oppChoice = 'rock';
     this.myScore = 0;
     this.oppScore = 0;
+    this.showPlayerList = false;
+    this.showMatchList = false;
   }
 
   initializeChoices(){
@@ -66,5 +71,15 @@ export class GameRootComponent implements OnInit {
   endGame(){
     this.myScore = 0;
     this.oppScore = 0;
+  }
+
+  onPlayersClick(): void {
+    this.showMatchList = false;
+    this.showPlayerList = !this.showPlayerList;
+  }
+
+  onMatchesClick(): void {
+    this.showPlayerList = false;
+    this.showMatchList = !this.showMatchList;
   }
 }
