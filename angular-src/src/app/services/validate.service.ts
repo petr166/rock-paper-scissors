@@ -11,6 +11,11 @@ export class ValidateService {
          return false;
     }
 
+    if(user.name == "" || user.username == "" ||
+       user.email == "" || user.password == ""){
+         return false;
+    }
+
     return true;
   }
 
