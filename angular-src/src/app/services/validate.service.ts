@@ -19,6 +19,13 @@ export class ValidateService {
     return true;
   }
 
+  validateUsername(username) {
+    if (username.length > 8) {
+      return false;
+    }
+    return true;
+  }
+
   validateEmail(email){
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
@@ -26,7 +33,7 @@ export class ValidateService {
 
   isUndefined(field){
     if(field == undefined){
-      return true
+      return true;
     }
     return false;
   }

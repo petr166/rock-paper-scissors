@@ -9,11 +9,12 @@
     @include justify-content(space-between);
 
     .box {
-      @include flex-grow(1);
+      @include flex-basis(100px);
+      @include flex-shrink(0);
     }
 
     .message-box {
-      @include flex-grow(3);
+      @include flex-grow(1);
       margin: 0 20px;
 
       .jumbotron {
@@ -28,7 +29,6 @@
 
     .score {
       padding: 0;
-      max-width: 140px;
       border: none;
       background-image: linear-gradient(#54b4eb, #2fa4e7 60%, #1d9ce5);
       background-repeat: no-repeat;
@@ -131,6 +131,13 @@
 }
 
 @media screen and (max-width: 360px){
+  .game-content .score-board .box {
+    -webkit-flex-basis: 96px;
+    -moz-flex-basis: 96px;
+    -ms-flex-preferred-size: 96px;
+    flex-basis: 96px;
+  }
+
   .game-content{
     .score-board{
       .message-box{
@@ -145,6 +152,13 @@
 }
 
 @media screen and (max-width: 320px){
+  .game-content .score-board .box {
+    -webkit-flex-basis: 83px;
+    -moz-flex-basis: 83px;
+    -ms-flex-preferred-size: 83px;
+    flex-basis: 83px;
+  }
+
   .game-content{
     .choices-container{
       .box{

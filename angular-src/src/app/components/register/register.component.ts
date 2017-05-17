@@ -34,6 +34,12 @@ export class RegisterComponent implements OnInit {
       this.flashMessage.show('Please fill in all fields.', {cssClass: 'alert-danger', timeout: 3000});
       return false;
     }
+
+    if(!this.validateService.validateUsername(user.username)){
+      this.flashMessage.show('Username should not exceed 8 characters.', {cssClass: 'alert-danger', timeout: 3000});
+      return false;
+    }
+
     if(!this.validateService.validateEmail(user.email)){
       this.flashMessage.show('Please use a valid email.', {cssClass: 'alert-danger', timeout: 3000});
       return false;
