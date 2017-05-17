@@ -29,8 +29,6 @@
 
   <h2 class="page-header">Change Password</h2>
 
-  <flash-messages></flash-messages>
-
   <form [formGroup]="changePassForm" (ngSubmit)="onChangePassSubmit()">
     <div class="form-group">
       <label for="oldPass">Old password</label>
@@ -47,5 +45,19 @@
 
   <h2 class="page-header">Delete account</h2>
 
-  <button class="btn btn-danger btn-lg" type="button" name="delete">Delete</button>
+  <button class="btn btn-danger btn-lg" type="button" name="delete" data-toggle="modal" data-target="#deleteProfile">Delete</button>
+
+  <div id="deleteProfile" class="modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body text-center">
+          <h3>Are you sure you want to delete your account?</h3>
+          <p>Note: This will be irreversible.</p>
+          <button class="btn btn-primary" data-dismiss="modal" (click)="deleteUser()">Yes</button>
+          <button class="btn btn-primary" data-dismiss="modal">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>

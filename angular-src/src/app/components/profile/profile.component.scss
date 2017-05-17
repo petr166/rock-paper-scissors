@@ -23,26 +23,30 @@ ul {
 
 strong {
   display: inline-block;
-  width: 10vw;
+  width: 13vw;
 }
 
 .list-group {
-  width: 35vw;
+  width: 37vw;
 }
 
 @media only screen and (max-width: 1024px) {
   strong {
-    width: 13vw;
+    width: 17vw;
+  }
+
+  .list-group {
+    width: 45vw;
   }
 }
 
 @media only screen and (max-width: 768px) {
   .list-group {
-    width: 45vw;
+    width: 92vw;
   }
 
   strong {
-    width: 18vw;
+    width: 30vw;
   }
 }
 
@@ -71,7 +75,7 @@ strong {
   }
 
   strong {
-    width: 30vw;
+    width: 37vw;
   }
 
   .list-group {
@@ -79,7 +83,7 @@ strong {
   }
 
   .progress {
-    width: 65%;
+    width: 57%;
   }
 
   .list-group-item {
@@ -89,10 +93,10 @@ strong {
 
 @media only screen and (max-width: 360px) {
   strong {
-    width: 40vw;
+    width: 42vw;
   }
 
   .progress {
-    width: 53%;
+    width: 51%;
   }
 }

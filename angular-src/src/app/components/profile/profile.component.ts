@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { FlashMessagesService } from 'angular2-flash-messages';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -13,7 +14,8 @@ export class ProfileComponent implements OnInit {
   changePassForm: FormGroup;
 
   constructor(private flashMessage: FlashMessagesService,
-              private formBuilder: FormBuilder) { }
+              private formBuilder: FormBuilder,
+              private router: Router) { }
 
   ngOnInit() {
     // pull user data from backend
@@ -39,6 +41,7 @@ export class ProfileComponent implements OnInit {
     console.log(this.changePassForm.value);
     this.flashMessage.show('Password changed successfully.', {cssClass: 'alert-success', timeout: 3000});
     this.changePassForm.setValue({ oldPass: "", newPass: "" });
+    window.scrollTo(0,0);
   }
 
   calcLoses(user: any): number {
@@ -53,4 +56,9 @@ export class ProfileComponent implements OnInit {
     return ratio;
   }
 
+  deleteUser() {
+    this.flashMessage.show('Your account has been deleted.', {cssClass: 'alert-success', timeout: 3000});
+    this.router.navigate(['']);
+    //delete user from back end
+  }
 }
