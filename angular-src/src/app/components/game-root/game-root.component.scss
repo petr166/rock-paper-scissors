@@ -75,6 +75,17 @@
         }
       }
     }
+
+    #vsBox{
+      background: white;
+      border: 0;
+      box-shadow: none;
+      color: #54b4eb;
+
+      i{
+        @include transform(scale(1.6));
+      }
+    }
   }
 }
 
@@ -101,6 +112,18 @@
                   -o-transform: scale(0.8);
                      transform: scale(0.8);
           }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 414px){
+  .game-content{
+    .choices-container{
+      #vsBox{
+        i{
+          @include transform(scale(1.2));
         }
       }
     }

@@ -15,13 +15,14 @@ export class GameRootComponent implements OnInit {
   private oppScore: number;
   private showPlayerList: boolean;
   private showMatchList: boolean;
+  private choiceInterval; // automatically toggle oppChoices until he chooses one
 
   constructor() { }
 
   ngOnInit() {
     this.initializeChoices();
     this.oppConnected = true;
-    this.oppChoice = 'rock';
+    this.oppChoice = '';
     this.myScore = 0;
     this.oppScore = 0;
     this.showPlayerList = false;
@@ -39,6 +40,7 @@ export class GameRootComponent implements OnInit {
       this.choices = [choice];
       this.resultColor = this.getResult(choice);
     }else{
+      clearInterval(this.choiceInterval);
       this.initializeChoices();// TODO: remove this
       this.resultColor = '#ffffff';
     }
@@ -46,13 +48,15 @@ export class GameRootComponent implements OnInit {
 
   // TODO: set a timer to automatically change the oppChoice every 500 ms
   toggleOppChoice(){
-    if(this.oppChoice == 'rock'){
-      this.oppChoice = 'paper';
-    }else if(this.oppChoice == 'paper'){
-      this.oppChoice = 'scissors';
-    }else{
-      this.oppChoice = 'rock';
-    }
+    this.choiceInterval = setInterval(()=>{
+      if(this.oppChoice == 'rock'){
+        this.oppChoice = 'paper';
+      }else if(this.oppChoice == 'paper'){
+        this.oppChoice = 'scissors';
+      }else{
+        this.oppChoice = 'rock';
+      }
+    },500);
   }
 
   getResult(myChoice){
