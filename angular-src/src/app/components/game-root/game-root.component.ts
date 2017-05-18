@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { GameService } from '../../services/game.service';
+
 @Component({
   selector: 'app-game-root',
   templateUrl: './game-root.component.html',
@@ -17,7 +19,7 @@ export class GameRootComponent implements OnInit {
   private showMatchList: boolean;
   private choiceInterval; // automatically toggle oppChoices until he chooses one
 
-  constructor() { }
+  constructor(private _gameService: GameService) { }
 
   ngOnInit() {
     this.initializeChoices();
@@ -27,6 +29,8 @@ export class GameRootComponent implements OnInit {
     this.oppScore = 0;
     this.showPlayerList = false;
     this.showMatchList = false;
+
+    this._gameService.connect("petru");
   }
 
   initializeChoices(){

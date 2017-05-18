@@ -16,6 +16,7 @@ import { OngoingGamesComponent } from './components/ongoing-games/ongoing-games.
 import { HomeComponent } from './components/home/home.component';
 
 import { ValidateService } from './services/validate.service';
+import { GameService } from './services/game.service';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -46,7 +47,10 @@ const appRoutes: Routes = [
     FlashMessagesModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [ValidateService],
+  providers: [
+    ValidateService,
+    GameService
+  ],
   bootstrap: [AppComponent]
 })
 
