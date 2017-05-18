@@ -21,8 +21,15 @@ export class GameService {
     this.socket.on("connect", () => {
       // this.sendUser(username);
       console.log("connected to the game server");
+
+      this.socket.emit("username", {username: username});
       callback();
     });
+  }
+
+  disconnect(): void {
+    this.socket.disconnect();
+    console.log("disconnected from the game server");
   }
 
 }

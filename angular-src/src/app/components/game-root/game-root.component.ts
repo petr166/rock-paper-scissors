@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { GameService } from '../../services/game.service';
 
@@ -8,7 +8,8 @@ import { GameService } from '../../services/game.service';
   styleUrls: ['./game-root.component.scss']
 })
 
-export class GameRootComponent implements OnInit {
+export class GameRootComponent implements OnInit, OnDestroy {
+  private username: string;
   private choices: string[];
   private oppConnected: boolean = false;
   private oppChoice: string;
@@ -30,7 +31,12 @@ export class GameRootComponent implements OnInit {
     this.showPlayerList = false;
     this.showMatchList = false;
 
-    this._gameService.connect("petru");
+    this.username = "petru"; // we will use _authService to get the credentials
+    this._gameService.connect(this.username);
+  }
+
+  ngOnDestroy() {
+    this._gameService.disconnect();
   }
 
   initializeChoices(){
