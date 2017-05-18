@@ -17,12 +17,14 @@ const initialize = (server) => {
         socket.username = data.username;
         let user = {
           username: data.username,
-          id: socket.id
+          id: socket.id,
+          inMatch: false
         };
 
         let existing = searchUser(user.username);
         if (existing == false) {
           users.push(user);
+          io.emit("active", {active: users});
         }
 
         console.log("[%s] connected", user.username);
@@ -30,10 +32,15 @@ const initialize = (server) => {
       }
     });
 
+    socket.on("get-active", () => {
+      socket.emit("active", {active: users});
+    });
+
     socket.on("disconnect", () => {
       let user = searchUser(socket.username);
       if (user != false) {
         users.splice(users.indexOf(user), 1);
+        io.emit("active", {active: users});
       }
 
       console.log("[%s] disconnected", socket.username);

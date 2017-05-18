@@ -19,6 +19,7 @@ export class GameRootComponent implements OnInit, OnDestroy {
   private showPlayerList: boolean;
   private showMatchList: boolean;
   private choiceInterval; // automatically toggle oppChoices until he chooses one
+  private receiveWelcomeObs: any;
 
   constructor(private _gameService: GameService) { }
 
@@ -33,10 +34,23 @@ export class GameRootComponent implements OnInit, OnDestroy {
 
     this.username = "petru"; // we will use _authService to get the credentials
     this._gameService.connect(this.username);
+    this.initReceivers();
   }
 
   ngOnDestroy() {
     this._gameService.disconnect();
+    this.destroyReceivers();
+  }
+
+  destroyReceivers(): void {
+    this.receiveWelcomeObs.unsubscribe();
+  }
+
+  initReceivers(): void {
+    this.receiveWelcomeObs = this._gameService.receiveWelcome()
+      .subscribe(data => {
+        console.log(data.message);
+      });
   }
 
   initializeChoices(){

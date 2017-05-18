@@ -22,7 +22,7 @@ export class GameService {
       // this.sendUser(username);
       console.log("connected to the game server");
 
-      this.socket.emit("username", {username: username});
+      this.sendUser(username);
       callback();
     });
   }
@@ -30,6 +30,44 @@ export class GameService {
   disconnect(): void {
     this.socket.disconnect();
     console.log("disconnected from the game server");
+  }
+
+  sendUser(username: string): void {
+    let event = "username";
+    let data = {username: username};
+
+    this.genericSend(event, data);
+  }
+
+  sendGetActive(): void {
+    let event = "get-active";
+
+    this.genericSend(event);
+  }
+
+  receiveWelcome(): any {
+    return this.genericReceiver("welcome");
+  }
+
+  receiveActive(): any {
+    return this.genericReceiver("active");
+  }
+  
+
+  // generic method for creating an observable listening to a specific event
+  genericReceiver(event: string): any {
+    let observable = new Observable(observer => {
+      this.socket.on(event, (data) => {
+        observer.next(data);
+      });
+    });
+
+    return observable;
+  }
+
+  // generic method for sending data with a specific event
+  genericSend(event: string, data: any = {}) {
+    this.socket.emit(event, data);
   }
 
 }
