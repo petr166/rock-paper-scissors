@@ -7,7 +7,9 @@
   <li class="list-group-item" *ngFor="let player of playerList;"
       [attr.data-toggle]="player.inMatch ? '' : 'modal'" data-target="#waitForPlayer"
       data-backdrop="static" data-keyboard="false"
-      [ngClass]="{'disabled':player.inMatch}">
+      [ngClass]="{'disabled':player.inMatch}"
+      (click)="onPlayerClick(player.id)"
+      >
     <a><span class="label label-success" [ngClass]="{'label-danger':player.inMatch}"></span>
       {{player.username}}
     </a>
