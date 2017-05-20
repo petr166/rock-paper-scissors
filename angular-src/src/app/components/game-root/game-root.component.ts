@@ -77,6 +77,7 @@ export class GameRootComponent implements OnInit, OnDestroy {
 
   sendGameResponse(response: boolean): void {
     this._gameService.sendGameResponse(response);
+    this.hasOponent = false;
   }
 
   // TODO: use transitions to change from one state to the other
