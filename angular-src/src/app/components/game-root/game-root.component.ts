@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
 
 import { GameService } from '../../services/game.service';
 import { AuthService } from "../../services/auth.service";
@@ -22,14 +22,14 @@ export class GameRootComponent implements OnInit, OnDestroy {
   private showMatchList: boolean;
   private choiceInterval; // automatically toggle oppChoices until he chooses one
   private receiveWelcomeObs: any;
-  private receiveOponentNameObs: any;
-  private oponentName: string;
-  private gameAccept: string;
-  private gameRefuse: string;
+  private receiveGameReqObs: any;
+  private oponentName: string = "";
+  private hasOponent: boolean;
 
   constructor(
     private _gameService: GameService,
-    private _authService: AuthService
+    private _authService: AuthService,
+    private _el: ElementRef
   ) { }
 
   ngOnInit() {
@@ -54,6 +54,7 @@ export class GameRootComponent implements OnInit, OnDestroy {
 
   destroyReceivers(): void {
     this.receiveWelcomeObs.unsubscribe();
+    this.receiveGameReqObs.unsubscribe();
   }
 
   initReceivers(): void {
@@ -61,18 +62,17 @@ export class GameRootComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         console.log(data.message);
       });
+
+    this.receiveGameReqObs = this._gameService.receiveGameRequest()
+      .subscribe(data => {
+        console.log(data);
+        this.oponentName = data.opponent;
+        this.hasOponent = true;
+      });
   }
 
   initializeChoices(){
     this.choices = ['rock','paper','scissors'];
-  }
-
-  receiveGameRequest(): any {
-    this.receiveOponentNameObs = this._gameService.receiveGameRequest()
-      .subscribe(data => {
-        this.oponentName = data.oponent;
-      });
-    return true;
   }
 
   sendGameResponse(response: boolean): void {
