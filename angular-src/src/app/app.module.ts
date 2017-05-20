@@ -17,6 +17,7 @@ import { HomeComponent } from './components/home/home.component';
 
 import { ValidateService } from './services/validate.service';
 import { GameService } from './services/game.service';
+import { AuthService } from './services/auth.service';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -49,7 +50,8 @@ const appRoutes: Routes = [
   ],
   providers: [
     ValidateService,
-    GameService
+    GameService,
+    AuthService
   ],
   bootstrap: [AppComponent]
 })

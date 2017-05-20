@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { GameService } from '../../services/game.service';
+import { AuthService } from "../../services/auth.service";
+
 
 @Component({
   selector: 'app-game-root',
@@ -21,7 +23,10 @@ export class GameRootComponent implements OnInit, OnDestroy {
   private choiceInterval; // automatically toggle oppChoices until he chooses one
   private receiveWelcomeObs: any;
 
-  constructor(private _gameService: GameService) { }
+  constructor(
+    private _gameService: GameService,
+    private _authService: AuthService
+  ) { }
 
   ngOnInit() {
     this.initializeChoices();
@@ -32,7 +37,8 @@ export class GameRootComponent implements OnInit, OnDestroy {
     this.showPlayerList = false;
     this.showMatchList = false;
 
-    this.username = "petru"; // we will use _authService to get the credentials
+    // this.username = "petru"; // we will use _authService to get the credentials
+    this.username = this._authService.getUser().username;
     this._gameService.connect(this.username);
     this.initReceivers();
   }
