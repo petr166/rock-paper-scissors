@@ -45,6 +45,13 @@ export class GameService {
     this.genericSend(event);
   }
 
+  sendGameResponse(response: boolean): void {
+    let event = "game-response";
+    let data = {"accepted": response};
+
+    this.genericSend(event, data);
+  }
+
   receiveWelcome(): any {
     return this.genericReceiver("welcome");
   }
@@ -52,7 +59,11 @@ export class GameService {
   receiveActive(): any {
     return this.genericReceiver("active");
   }
-  
+
+  receiveGameRequest(): any {
+    return this.genericReceiver("game-request");
+  }
+
 
   // generic method for creating an observable listening to a specific event
   genericReceiver(event: string): any {

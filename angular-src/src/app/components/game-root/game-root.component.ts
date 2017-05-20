@@ -20,6 +20,10 @@ export class GameRootComponent implements OnInit, OnDestroy {
   private showMatchList: boolean;
   private choiceInterval; // automatically toggle oppChoices until he chooses one
   private receiveWelcomeObs: any;
+  private receiveOponentNameObs: any;
+  private oponentName: string;
+  private gameAccept: string;
+  private gameRefuse: string;
 
   constructor(private _gameService: GameService) { }
 
@@ -55,6 +59,18 @@ export class GameRootComponent implements OnInit, OnDestroy {
 
   initializeChoices(){
     this.choices = ['rock','paper','scissors'];
+  }
+
+  receiveGameRequest(): any {
+    this.receiveOponentNameObs = this._gameService.receiveGameRequest()
+      .subscribe(data => {
+        this.oponentName = data.oponent;
+      });
+    return true;
+  }
+
+  sendGameResponse(response: boolean): void {
+    this._gameService.sendGameResponse(response);
   }
 
   // TODO: use transitions to change from one state to the other
