@@ -13,7 +13,7 @@ import { AuthService } from "../../services/auth.service";
 export class GameRootComponent implements OnInit, OnDestroy {
   private username: string;
   private choices: string[];
-  private oppConnected: boolean = false;
+  private oppRefused: boolean = false;
   private oppChoice: string;
   private resultColor: string = '#ffffff';
   private myScore: number;
@@ -25,6 +25,8 @@ export class GameRootComponent implements OnInit, OnDestroy {
   private receiveGameReqObs: any;
   private oponentName: string = "";
   private hasOponent: boolean;
+  private matchOn: boolean;
+  private opponent: any = {};
 
   constructor(
     private _gameService: GameService,
@@ -34,7 +36,6 @@ export class GameRootComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initializeChoices();
-    this.oppConnected = true;
     this.oppChoice = '';
     this.myScore = 0;
     this.oppScore = 0;
@@ -65,8 +66,9 @@ export class GameRootComponent implements OnInit, OnDestroy {
 
     this.receiveGameReqObs = this._gameService.receiveGameRequest()
       .subscribe(data => {
-        console.log(data);
-        this.oponentName = data.opponent;
+        console.log("game request:", data);
+        this.opponent = data.opponent;
+        this.oponentName = data.opponent.username;
         this.hasOponent = true;
       });
   }
@@ -76,7 +78,7 @@ export class GameRootComponent implements OnInit, OnDestroy {
   }
 
   sendGameResponse(response: boolean): void {
-    this._gameService.sendGameResponse(response);
+    this._gameService.sendGameResponse(response, this.opponent.id);
     this.hasOponent = false;
   }
 
@@ -132,5 +134,23 @@ export class GameRootComponent implements OnInit, OnDestroy {
   onMatchesClick(): void {
     this.showPlayerList = false;
     this.showMatchList = !this.showMatchList;
+  }
+
+  onGameReqSend(id: string): void {
+    this._gameService.sendGameRequest(id);
+    this._gameService.receiveGameResponse()
+      .subscribe(data => {
+        if (data.accepted == false) {
+          this.oppRefused = true;
+        } else {
+          this.startMatch();
+        }
+        this.hasOponent = false;
+      });
+  }
+
+  startMatch(): void {
+    console.log("match started");
+    this.matchOn = true;
   }
 }

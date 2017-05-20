@@ -16,7 +16,7 @@
     </div>
 
     <div class="col-sm-3 col-lg-2 list-container player-list-container" [ngClass]="{'open': showPlayerList}">
-      <app-player-list></app-player-list>
+      <app-player-list (gameRequestSend)="onGameReqSend($event)"></app-player-list>
     </div>
 
 
@@ -36,8 +36,8 @@
 
         <div class="box message-box">
           <div class="jumbotron" [ngStyle]="{'background-color': resultColor}">
-            <h4 *ngIf="!oppConnected">Please choose an opponent from the left</h4>
-            <ng-container *ngIf="oppConnected">
+            <h4 *ngIf="!matchOn">Please choose an opponent from the left</h4>
+            <ng-container *ngIf="matchOn">
               <h4 *ngIf="resultColor == '#ffffff'">Game on</h4>
               <h4 *ngIf="resultColor == '#73a839'">Win</h4>
               <h4 *ngIf="resultColor == '#c71c22'">Lose</h4>
@@ -49,16 +49,16 @@
         <div class="box">
           <div class="well score">
             <div class="number">
-              <strong *ngIf="oppConnected">{{oppScore}}</strong>
+              <strong *ngIf="matchOn">{{oppScore}}</strong>
             </div>
             <div class="name">
-              <p *ngIf="oppConnected">dana</p> <!--TODO: style this properly when !oppConnected-->
+              <p *ngIf="matchOn">dana</p> <!--TODO: style this properly when !matchOn-->
             </div>
           </div>
         </div>
       </div>
 
-      <div *ngIf="oppConnected" class="choices-container">
+      <div *ngIf="matchOn" class="choices-container">
         <div (click)="selectChoice(choice)" *ngFor="let choice of choices;" class="btn btn-warning box"
              [attr.data-toggle]="myScore == 2 || oppScore == 2 ? 'modal' : ''" data-target="#gameOver">
           <i class="fa fa-hand-{{choice}}-o fa-5x myChoices" aria-hidden="true"></i>
@@ -85,13 +85,13 @@
 <div id="waitForPlayer" class="modal">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div *ngIf="!oppConnected" class="modal-body text-center">
-        <h2>Waiting for opponent</h2><br />
+      <div *ngIf="!oppRefused" class="modal-body text-center">
+        <h2>Waiting for opponent..</h2><br />
         <i class="fa fa-spinner fa-pulse fa-3x fa-fw" style="color: #317eac;"></i><br /><br />
-        <button class="btn btn-primary" data-dismiss="modal">Cancel</button>
+        <!-- <button class="btn btn-primary" data-dismiss="modal">Cancel</button> -->
       </div>
-      <div *ngIf="oppConnected" class="modal-body text-center">
-        <h2>Opponent connected</h2><br />
+      <div *ngIf="oppRefused" class="modal-body text-center">
+        <h2>Your opponent is a coward. He rejected your game invitation..</h2><br />
         <button class="btn btn-primary" data-dismiss="modal">Ok</button>
       </div>
     </div>

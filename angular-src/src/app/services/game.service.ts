@@ -45,9 +45,9 @@ export class GameService {
     this.genericSend(event);
   }
 
-  sendGameResponse(response: boolean): void {
+  sendGameResponse(response: boolean, oppId: string): void {
     let event = "game-response";
-    let data = {"accepted": response};
+    let data = {"accepted": response, "id": oppId};
 
     this.genericSend(event, data);
   }
@@ -69,6 +69,10 @@ export class GameService {
 
   receiveGameRequest(): any {
     return this.genericReceiver("game-request");
+  }
+
+  receiveGameResponse(): any {
+    return this.genericReceiver("game-response");
   }
 
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
 import { GameService } from '../../services/game.service';
 
 @Component({
@@ -10,6 +10,7 @@ import { GameService } from '../../services/game.service';
 export class PlayerListComponent implements OnInit, OnDestroy {
   private playerList: Object [];
   private receiveActiveObs: any;
+  @Output() gameRequestSend = new EventEmitter<string>();
 
   constructor(private _gameService: GameService) {}
 
@@ -54,8 +55,9 @@ export class PlayerListComponent implements OnInit, OnDestroy {
       });
   }
 
-  onPlayerClick(id: string): void {
-    this._gameService.sendGameRequest(id);
+  onPlayerClick(id: string): boolean {
+    this.gameRequestSend.emit(id);
+    return false;
   }
 
   destroyReceivers(): void {
