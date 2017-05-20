@@ -36,6 +36,15 @@ const initialize = (server) => {
       socket.emit("active", {active: users});
     });
 
+    socket.on("game-request", (data) => {
+      if (data.id.length > 0) {
+        let emitData = {opponent: socket.username};
+        socket.broadcast.to(data.id).emit("game-request", emitData);
+
+        console.log("sent game-request with", emitData, "to", data);
+      }
+    });
+
     socket.on("disconnect", () => {
       let user = searchUser(socket.username);
       if (user != false) {
