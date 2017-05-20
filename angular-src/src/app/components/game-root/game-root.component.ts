@@ -38,7 +38,7 @@ export class GameRootComponent implements OnInit, OnDestroy {
     this.showMatchList = false;
 
     // this.username = "petru"; // we will use _authService to get the credentials
-    this.username = this._authService.getUser().username;
+    this.username = this._authService.getUser().username || "petru";
     this._gameService.connect(this.username);
     this.initReceivers();
   }
