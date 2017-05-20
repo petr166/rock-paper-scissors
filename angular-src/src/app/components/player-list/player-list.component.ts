@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
 import { GameService } from '../../services/game.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-player-list',
@@ -8,37 +9,17 @@ import { GameService } from '../../services/game.service';
 })
 
 export class PlayerListComponent implements OnInit, OnDestroy {
-  private playerList: Object [];
+  private playerList: any;
   private receiveActiveObs: any;
   @Output() gameRequestSend = new EventEmitter<string>();
+  private username: string;
 
-  constructor(private _gameService: GameService) {}
+  constructor(private _gameService: GameService, private _authService: AuthService) {}
 
   ngOnInit() {
-    // this.playerList = [
-    //   {"nickname":"Player1", "inMatch":false},
-    //   {"nickname":"Dana213", "inMatch":false},
-    //   {"nickname":"Petr166", "inMatch":true},
-    //   {"nickname":"AndreiDog", "inMatch":true},
-    //   {"nickname":"Random", "inMatch":false},
-    //   {"nickname":"Random", "inMatch":false},
-    //   {"nickname":"Random", "inMatch":false},
-    //   {"nickname":"Random", "inMatch":false},
-    //   {"nickname":"Random", "inMatch":false},
-    //   {"nickname":"Random", "inMatch":false},
-    //   {"nickname":"Random", "inMatch":false},
-    //   {"nickname":"Random", "inMatch":false},
-    //   {"nickname":"Random", "inMatch":false},
-    //   {"nickname":"Random", "inMatch":false},
-    //   {"nickname":"Random", "inMatch":false},
-    //   {"nickname":"Random", "inMatch":false},
-    //   {"nickname":"Random", "inMatch":false},
-    //   {"nickname":"Random", "inMatch":false}
-    // ]
-
     this.initReceivers();
     this._gameService.sendGetActive();
-
+    this.username = this._authService.getUser().username || "petru";
   }
 
   ngOnDestroy() {
@@ -50,6 +31,7 @@ export class PlayerListComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         if (data.active.length > 0) {
           this.playerList = data.active;
+          this.removePlayer();
           console.log(data);
         }
       });
@@ -58,6 +40,14 @@ export class PlayerListComponent implements OnInit, OnDestroy {
   onPlayerClick(id: string): boolean {
     this.gameRequestSend.emit(id);
     return false;
+  }
+
+  removePlayer(): void {
+    for(let i = 0; i < this.playerList.length; i++) {
+      if(this.username == this.playerList[i].username) {
+        this.playerList.splice(i, 1);
+      }
+    }
   }
 
   destroyReceivers(): void {
