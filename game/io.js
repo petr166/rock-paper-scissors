@@ -38,12 +38,15 @@ const initialize = (server) => {
 
     socket.on("game-request", (data) => {
       if (data.id.length > 0) {
-        let emitData = {
-          opponent: searchUser(socket.username)
-        };
-        socket.broadcast.to(data.id).emit("game-request", emitData);
+        let opponent = searchUser(socket.username);
+        if (opponent != false) {
+          let emitData = {
+            opponent: opponent
+          };
+          socket.broadcast.to(data.id).emit("game-request", emitData);
 
-        console.log("sent game-request with", emitData, "to", data);
+          console.log("sent game-request with", emitData, "to", data);
+        }
       }
     });
 

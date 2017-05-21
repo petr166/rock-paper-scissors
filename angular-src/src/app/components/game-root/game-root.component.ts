@@ -23,10 +23,8 @@ export class GameRootComponent implements OnInit, OnDestroy {
   private choiceInterval; // automatically toggle oppChoices until he chooses one
   private receiveWelcomeObs: any;
   private receiveGameReqObs: any;
-  private oponentName: string = "";
-  private hasOponent: boolean;
-  private matchOn: boolean;
   private opponent: any = {};
+  private showWaitModal: boolean;
 
   constructor(
     private _gameService: GameService,
@@ -41,6 +39,7 @@ export class GameRootComponent implements OnInit, OnDestroy {
     this.oppScore = 0;
     this.showPlayerList = false;
     this.showMatchList = false;
+    this.showWaitModal = false;
 
     // this.username = "petru"; // we will use _authService to get the credentials
     this.username = this._authService.getUser().username || "petru";
@@ -68,8 +67,6 @@ export class GameRootComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         console.log("game request:", data);
         this.opponent = data.opponent;
-        this.oponentName = data.opponent.username;
-        this.hasOponent = true;
       });
   }
 
@@ -79,7 +76,6 @@ export class GameRootComponent implements OnInit, OnDestroy {
 
   sendGameResponse(response: boolean): void {
     this._gameService.sendGameResponse(response, this.opponent.id);
-    this.hasOponent = false;
   }
 
   // TODO: use transitions to change from one state to the other
@@ -138,19 +134,6 @@ export class GameRootComponent implements OnInit, OnDestroy {
 
   onGameReqSend(id: string): void {
     this._gameService.sendGameRequest(id);
-    this._gameService.receiveGameResponse()
-      .subscribe(data => {
-        if (data.accepted == false) {
-          this.oppRefused = true;
-        } else {
-          this.startMatch();
-        }
-        this.hasOponent = false;
-      });
-  }
-
-  startMatch(): void {
-    console.log("match started");
-    this.matchOn = true;
+    this.showWaitModal = true;
   }
 }

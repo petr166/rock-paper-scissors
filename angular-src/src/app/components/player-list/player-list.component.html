@@ -4,9 +4,7 @@
   </li>
 </ul>
 <ul class="list-group ul-body players">
-  <li class="list-group-item" *ngFor="let player of playerList;"
-      [attr.data-toggle]="player.inMatch ? '' : 'modal'" data-target="#waitForPlayer"
-      data-backdrop="static" data-keyboard="false"
+  <li class="list-group-item" *ngFor="let player of playerList"
       [ngClass]="{'disabled':player.inMatch}"
       (click)="onPlayerClick(player.id)"
       >
@@ -15,3 +13,8 @@
     </a>
   </li>
 </ul>
+
+
+<!-- <li> atributes -->
+<!-- [attr.data-toggle]="player.inMatch ? '' : 'modal'" data-target="#waitForPlayer"
+data-backdrop="static" data-keyboard="false" -->

@@ -82,23 +82,49 @@
   </div>
 </div>
 
-<div id="waitForPlayer" class="modal">
+<!-- <div id="waitForPlayer" class="modal">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div *ngIf="!oppRefused" class="modal-body text-center">
-        <h2>Waiting for opponent..</h2><br />
-        <i class="fa fa-spinner fa-pulse fa-3x fa-fw" style="color: #317eac;"></i><br /><br />
-        <!-- <button class="btn btn-primary" data-dismiss="modal">Cancel</button> -->
-      </div>
-      <div *ngIf="oppRefused" class="modal-body text-center">
-        <h2>Your opponent is a coward. He rejected your game invitation..</h2><br />
-        <button class="btn btn-primary" data-dismiss="modal">Ok</button>
+      <div class="modal-body text-center">
+        <div class="">
+          <h2>Waiting for opponent..</h2><br />
+          <i class="fa fa-spinner fa-pulse fa-3x fa-fw" style="color: #317eac;"></i><br /><br />
+          <button class="btn btn-primary" data-dismiss="modal">Cancel</button>
+        </div>
+
+        <div class="">
+          <h2>Your opponent is a coward. He rejected your game invitation..</h2><br />
+          <button class="btn btn-primary" data-dismiss="modal">Ok</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
-<div id="receiveGameRequestModal" class="modal" [style.display]="hasOponent ? 'block' : 'none'">
+<div *ngIf="showWaitModal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <div *ngIf="!oppRefused" class="">
+          <h2>Waiting for opponent..</h2>
+          <br>
+          <i class="fa fa-spinner fa-pulse fa-3x fa-fw" style="color: #317eac;"></i>
+          <br>
+          <br>
+          <!-- <button class="btn btn-primary" data-dismiss="modal">Cancel</button> -->
+        </div>
+
+        <div *ngIf="oppRefused" class="">
+          <h3>Your opponent is a coward. He rejected your game invitation..</h3>
+          <br>
+          <button class="btn btn-primary" data-dismiss="modal">Ok</button>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- <div id="receiveGameRequestModal" class="modal" [style.display]="hasOponent ? 'block' : 'none'">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body text-center">
@@ -112,10 +138,11 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 
-<div id="gameOver" class="modal"><!-- TODO: Add 1 sec timeout before showing this  -->
+<!-- TODO: Add 1 sec timeout before showing this  -->
+<!-- <div id="gameOver" class="modal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body text-center">
@@ -125,4 +152,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

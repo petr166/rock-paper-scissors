@@ -9,7 +9,7 @@ import { AuthService } from '../../services/auth.service';
 })
 
 export class PlayerListComponent implements OnInit, OnDestroy {
-  private playerList: any;
+  private playerList: any[];
   private receiveActiveObs: any;
   @Output() gameRequestSend = new EventEmitter<string>();
   private username: string;

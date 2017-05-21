@@ -1,5 +1,9 @@
 @import "../../../assets/sass/to-import.scss";
 
+.modal {
+  display: block;
+}
+
 .game-content {
   padding-top: 20px;
 
@@ -220,6 +224,7 @@
     margin: 0;
     padding: 0;
     width: 220px;
+    background-color: #ffffff;
 
     &.player-list-container {
       left: 0;
