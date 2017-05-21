@@ -117,8 +117,23 @@
         <div *ngIf="oppRefused" class="">
           <h3>Your opponent is a coward. He rejected your game invitation..</h3>
           <br>
-          <button class="btn btn-primary" data-dismiss="modal">Ok</button>
+          <button class="btn btn-primary" data-dismiss="modal" (click)="dismissWaitModal()">Ok</button>
         </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div *ngIf="showRequestModal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <h3><strong>{{opponent.username}}</strong> challenged you!</h3>
+        <h4>Are you brave enough?</h4>
+        <br>
+
+        <button class="btn btn-primary" data-dismiss="modal" (click)="sendGameResponse(true)">Yes</button>
+        <button class="btn btn-danger" data-dismiss="modal" (click)="sendGameResponse(false)">No</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
