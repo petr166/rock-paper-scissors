@@ -118,17 +118,20 @@ const initialize = (server) => {
         }
 
         if (match.player1.choice.length > 0 && match.player2.choice.length > 0) {
-          // TODO check winner function
-          let winner = 0;
+          let winner = checkWinner(match.player1.choice, match.player2.choice);
+          let winnerName = 0;
+
           if (winner != 0) {
             switch (winner) {
               case 1: {
                 match.player1.score++;
+                winnerName = match.player1.username;
                 break;
               }
 
               case 2: {
                 match.player2.score++;
+                winnerName = match.player2.username;
                 break;
               }
             }
@@ -143,7 +146,7 @@ const initialize = (server) => {
             room: data.room,
             choice1: match.player1.choice,
             choice2: match.player2.choice,
-            winner: winner,
+            winner: winnerName,
             ended: ended
           };
 
@@ -205,7 +208,6 @@ const changeInMatchStatus = (player1, player2) => {
 
 }
 
-
 let roomNum = 0;
 const generateRoom = () => {
   let room = "room";
@@ -213,6 +215,19 @@ const generateRoom = () => {
   roomNum++;
 
   return room;
+}
+
+const checkWinner = (choice1, choice2) => {
+  if ((choice1 == 'rock' && choice2 == 'paper') ||
+     (choice1 == 'paper' && choice2 == 'scissors') ||
+     (choice1 == 'scissors' && choice2 == 'rock')) {
+       return 2;
+
+  } else if(choice1 == choice2){
+      return 0;
+  }
+
+  return 1;
 }
 
 
