@@ -35,6 +35,7 @@ const initialize = (server) => {
 
     socket.on("get-active", () => {
       socket.emit("active", {active: users});
+      socket.emit("active-matches", {matches: matches});
     });
 
     socket.on("game-request", (data) => {
@@ -98,7 +99,9 @@ const initialize = (server) => {
             // TODO: send active matches
             changeInMatchStatus(match.player1.username, match.player2.username);
             console.log("<matches>:", matches);
+            console.log("<users>:", users);
             io.emit("active", {active: users});
+            io.emit("active-matches", {matches: matches});
           }
         });
       }
