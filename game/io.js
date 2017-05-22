@@ -2,6 +2,7 @@ const socketIo = require('socket.io');
 
 const users = [];
 const matches = [];
+const sockets = [];
 
 const initialize = (server) => {
 
@@ -9,6 +10,7 @@ const initialize = (server) => {
   console.log("socket.io server started!");
 
   io.on("connection", (socket) => {
+    sockets.push(socket);
     socket.emit("welcome", {message: "Welcome to our game server!"});
 
     socket.on("username", (data) => {
@@ -28,6 +30,7 @@ const initialize = (server) => {
 
         console.log("[%s] connected", user.username);
         console.log("<users>:", users);
+        console.log("<matches>:", matches);
       }
     });
 
@@ -77,6 +80,7 @@ const initialize = (server) => {
 
         matches.push(match);
         socket.join(roomName);
+        socket.matchRoom = match.room;
       }
 
       socket.broadcast.to(data.opponent.id).emit("game-response", emitData);
@@ -93,6 +97,7 @@ const initialize = (server) => {
             };
 
             io.to(data.room).emit("match", emitData);
+            socket.matchRoom = match.room;
             console.log("sent match:", emitData, "to", data.room);
 
             // TODO: send active matches
@@ -171,10 +176,17 @@ const initialize = (server) => {
         users.splice(users.indexOf(user), 1);
         io.emit("active", {active: users});
 
+        let match = searchMatch(socket.matchRoom);
+        if (match != false) {
+          let emitData = {disconnected: socket.username};
+          io.to(socket.matchRoom).emit("disconnected", emitData);
+          endMatch(match);
+        }
       }
 
       console.log("[%s] disconnected", socket.username);
       console.log("<users>:", users);
+      console.log("<matches>:", matches);
     });
   });
 }
@@ -228,6 +240,21 @@ const checkWinner = (choice1, choice2) => {
   }
 
   return 1;
+}
+
+const endMatch = (match) => {
+  let matchIndex = matches.indexOf(match);
+  if (matchIndex > -1) {
+    matches.splice(matchIndex, 1);
+    console.log("match end:", match);
+
+    for (socket of sockets) {
+      if (socket.matchRoom == match.room) {
+        socket.leave(match.room);
+        socket.matchRoom = "";
+      }
+    }
+  }
 }
 
 
