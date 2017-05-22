@@ -156,6 +156,11 @@ const initialize = (server) => {
           };
 
           io.to(data.room).emit("round", emitData);
+
+          match.player1.choice = "";
+          match.player2.choice = "";
+
+          io.emit("active-matches", {matches: matches});
           console.log("round end:", emitData);
 
           if (ended == true) {
