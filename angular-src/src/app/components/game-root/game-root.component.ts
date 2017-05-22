@@ -22,10 +22,12 @@ export class GameRootComponent implements OnInit, OnDestroy {
   private receiveWelcomeObs: any;
   private receiveGameReqObs: any;
   private receiveMatchObs: any;
+  private receiveRoundResObs: any;
   private showWaitModal: boolean;
   private showRequestModal: boolean;
   private opponent: any = {};
   private match: any;
+  private round: any;
   private gameInfo: any = {};
   private matchOn: boolean;
 
@@ -98,6 +100,15 @@ export class GameRootComponent implements OnInit, OnDestroy {
   // TODO: use transitions to change from one state to the other
   selectChoice(choice: string){
     this.sendChoice(this.match.room, this.username, choice);
+
+    this.receiveRoundResObs = this._gameService.receiveRoundResult()
+      .subscribe(data => {
+        this.round = data;
+        this.verifyWinner(choice);
+
+        console.log(data);
+    });
+
     if(this.choices.length == 3){
       this.toggleOppChoice();
       this.choices = [choice];
@@ -196,6 +207,27 @@ export class GameRootComponent implements OnInit, OnDestroy {
     }
 
     this.gameInfo.match = match;
+  }
+
+  verifyWinner(choice: string): void {
+    clearInterval(this.choiceInterval);
+    if(choice == this.round.choice1){
+      this.oppChoice = this.round.choice2;
+    } else {
+      this.oppChoice = this.round.choice1;
+    }
+
+    if(this.round.winner == 0) {
+      this.resultColor = '#033c73';
+    } else {
+      if (this.username == this.round.winner){
+        this.resultColor = '#73a839';
+        this.gameInfo.match.player.score++;
+      } else {
+        this.resultColor = '#c71c22';
+        this.gameInfo.match.opponent.score++;
+      }
+    }
   }
 
   dismissWaitModal(): void {
