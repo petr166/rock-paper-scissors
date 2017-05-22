@@ -97,7 +97,7 @@ export class GameRootComponent implements OnInit, OnDestroy {
 
   // TODO: use transitions to change from one state to the other
   selectChoice(choice: string){
-    this.sendChoice(this.match.room, this.match.player.username, choice);
+    this.sendChoice(this.match.room, this.username, choice);
     if(this.choices.length == 3){
       this.toggleOppChoice();
       this.choices = [choice];
