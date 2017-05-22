@@ -22,10 +22,12 @@ export class GameRootComponent implements OnInit, OnDestroy {
   private receiveWelcomeObs: any;
   private receiveGameReqObs: any;
   private receiveMatchObs: any;
+  private receiveRoundResObs: any;
   private showWaitModal: boolean;
   private showRequestModal: boolean;
   private opponent: any = {};
   private match: any;
+  private round: any;
   private gameInfo: any = {};
   private matchOn: boolean;
 
@@ -98,6 +100,15 @@ export class GameRootComponent implements OnInit, OnDestroy {
   // TODO: use transitions to change from one state to the other
   selectChoice(choice: string){
     this.sendChoice(this.match.room, this.username, choice);
+
+    this.receiveRoundResObs = this._gameService.receiveRoundResult()
+      .subscribe(data => {
+        this.round = data;
+        this.verifyChoice(choice);
+
+        console.log(data);
+    });
+
     if(this.choices.length == 3){
       this.toggleOppChoice();
       this.choices = [choice];
@@ -196,6 +207,14 @@ export class GameRootComponent implements OnInit, OnDestroy {
     }
 
     this.gameInfo.match = match;
+  }
+
+  verifyChoice(choice: string): void {
+    if(choice == this.round.choice1) {
+      this.gameInfo.match.player.score++;
+    } else {
+      this.gameInfo.match.opponent.score++;
+    }
   }
 
   dismissWaitModal(): void {
