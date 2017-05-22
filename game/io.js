@@ -9,8 +9,6 @@ const initialize = (server) => {
   console.log("socket.io server started!");
 
   io.on("connection", (socket) => {
-    console.log("a user connected");
-
     socket.emit("welcome", {message: "Welcome to our game server!"});
 
     socket.on("username", (data) => {
@@ -108,11 +106,68 @@ const initialize = (server) => {
       }
     });
 
+    socket.on("choice", (data) => {
+      console.log("choice:", data);
+      let match = searchMatch(data.room);
+      if (match != false) {
+
+        if (match.player1.username == data.username) {
+          match.player1.choice = data.choice;
+        } else if (match.player2.username == data.username) {
+          match.player2.choice = data.choice;
+        }
+
+        if (match.player1.choice.length > 0 && match.player2.choice.length > 0) {
+          // TODO check winner function
+          let winner = 0;
+          if (winner != 0) {
+            switch (winner) {
+              case 1: {
+                match.player1.score++;
+                break;
+              }
+
+              case 2: {
+                match.player2.score++;
+                break;
+              }
+            }
+          }
+
+          let ended = false;
+          if (match.player1.score == 2 || match.player2.score == 2) {
+            ended = true;
+          }
+
+          let emitData = {
+            room: data.room,
+            choice1: match.player1.choice,
+            choice2: match.player2.choice,
+            winner: winner,
+            ended: ended
+          };
+
+          io.to(data.room).emit("round", emitData);
+          console.log("round end:", emitData);
+
+          if (ended == true) {
+            endMatch();
+            console.log("match ended:", match);
+            console.log("<matches>:", matches);
+            console.log("<users>:", users);
+            io.emit("active", {active: users});
+            io.emit("active-matches", {matches: matches});
+          }
+        }
+      }
+    });
+
     socket.on("disconnect", () => {
       let user = searchUser(socket.username);
       if (user != false) {
         users.splice(users.indexOf(user), 1);
         io.emit("active", {active: users});
+
       }
 
       console.log("[%s] disconnected", socket.username);

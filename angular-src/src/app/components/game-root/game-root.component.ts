@@ -16,8 +16,6 @@ export class GameRootComponent implements OnInit, OnDestroy {
   private oppRefused: boolean = false;
   private oppChoice: string;
   private resultColor: string = '#ffffff';
-  private myScore: number;
-  private oppScore: number;
   private showPlayerList: boolean;
   private showMatchList: boolean;
   private choiceInterval; // automatically toggle oppChoices until he chooses one
@@ -29,6 +27,7 @@ export class GameRootComponent implements OnInit, OnDestroy {
   private opponent: any = {};
   private match: any;
   private gameInfo: any = {};
+  private matchOn: boolean;
 
   constructor(
     private _gameService: GameService,
@@ -39,8 +38,6 @@ export class GameRootComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.initializeChoices();
     this.oppChoice = '';
-    this.myScore = 0;
-    this.oppScore = 0;
     this.showPlayerList = false;
     this.showMatchList = false;
     this.showWaitModal = false;
@@ -84,13 +81,16 @@ export class GameRootComponent implements OnInit, OnDestroy {
     this._gameService.sendGameResponse(response, this.opponent);
     this.showRequestModal = false;
 
-    this.receiveMatchObs = this._gameService.receiveMatchData()
-      .subscribe(data => {
-        this.match = data.match;
-        this.verifyPlayer();
+    if (response == true) {
+      this.receiveMatchObs = this._gameService.receiveMatchData()
+        .subscribe(data => {
+          this.match = data.match;
+          this.verifyPlayer();
+          this.startMatch();
 
-        console.log("match:", data);
-      });
+          console.log("match:", data);
+        });
+    }
 
     console.log("sent response:", response);
   }
@@ -100,7 +100,7 @@ export class GameRootComponent implements OnInit, OnDestroy {
     if(this.choices.length == 3){
       this.toggleOppChoice();
       this.choices = [choice];
-      this.resultColor = this.getResult(choice);
+      // this.resultColor = this.getResult(choice);
     }else{
       clearInterval(this.choiceInterval);
       this.initializeChoices();// TODO: remove this
@@ -118,26 +118,21 @@ export class GameRootComponent implements OnInit, OnDestroy {
       }else{
         this.oppChoice = 'rock';
       }
-    },500);
+    }, 500);
   }
 
-  getResult(myChoice){
-    if((myChoice == 'rock' && this.oppChoice == 'paper') ||
-       (myChoice == 'paper' && this.oppChoice == 'scissors') ||
-       (myChoice == 'scissors' && this.oppChoice == 'rock')){
-         this.oppScore ++;
-         return '#c71c22'; //lose
-    }else if(myChoice == this.oppChoice){
-      return '#033c73'; //draw
-    }
-    this.myScore ++;
-    return '#73a839'; //win
-  }
-
-  endGame(){
-    this.myScore = 0;
-    this.oppScore = 0;
-  }
+  // getResult(myChoice){
+  //   if((myChoice == 'rock' && this.oppChoice == 'paper') ||
+  //      (myChoice == 'paper' && this.oppChoice == 'scissors') ||
+  //      (myChoice == 'scissors' && this.oppChoice == 'rock')){
+  //        this.oppScore ++;
+  //        return '#c71c22'; //lose
+  //   }else if(myChoice == this.oppChoice){
+  //     return '#033c73'; //draw
+  //   }
+  //   this.myScore ++;
+  //   return '#73a839'; //win
+  // }
 
   onPlayersClick(): void {
     this.showMatchList = false;
@@ -167,6 +162,8 @@ export class GameRootComponent implements OnInit, OnDestroy {
             .subscribe(data => {
               this.match = data.match;
               this.verifyPlayer();
+              this.startMatch();
+
               console.log("match:", data);
             });
 
@@ -198,5 +195,9 @@ export class GameRootComponent implements OnInit, OnDestroy {
   dismissWaitModal(): void {
     this.showWaitModal = false;
     this.oppRefused = false;
+  }
+
+  startMatch(): void {
+    this.matchOn = true;
   }
 }
