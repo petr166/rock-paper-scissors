@@ -96,7 +96,8 @@ export class GameRootComponent implements OnInit, OnDestroy {
   }
 
   // TODO: use transitions to change from one state to the other
-  selectChoice(choice){
+  selectChoice(choice: string){
+    this.sendChoice(this.match.room, this.match.player.username, choice);
     if(this.choices.length == 3){
       this.toggleOppChoice();
       this.choices = [choice];
@@ -106,6 +107,11 @@ export class GameRootComponent implements OnInit, OnDestroy {
       this.initializeChoices();// TODO: remove this
       this.resultColor = '#ffffff';
     }
+  }
+
+  sendChoice(room: string, username: string, choice: string){
+    this._gameService.sendChoice(room, username, choice);
+    console.log("send choice:" + choice + " from:" + username + " to: " + room);
   }
 
   // TODO: set a timer to automatically change the oppChoice every 500 ms

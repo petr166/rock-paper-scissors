@@ -66,6 +66,17 @@ export class GameService {
     this.genericSend(event, data);
   }
 
+  sendChoice(room: string, username: string, choice: string): void {
+    let event = "choice";
+    let data = {
+      "room": room,
+      "username": username,
+      "choice": choice
+    };
+
+    this.genericSend(event, data);
+  }
+
   receiveWelcome(): any {
     return this.genericReceiver("welcome");
   }
