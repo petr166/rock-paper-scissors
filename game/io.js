@@ -1,6 +1,7 @@
 const socketIo = require('socket.io');
 
 const users = [];
+const matches = [];
 
 const initialize = (server) => {
 
@@ -52,10 +53,55 @@ const initialize = (server) => {
 
     socket.on("game-response", data => {
       let emitData = {accepted: data.accepted};
-      socket.broadcast.to(data.id).emit("game-response", emitData);
 
-      console.log("sent game-response", emitData, "to", data.id);
-    })
+      if (data.accepted == true) {
+        let roomName = "room1"; // TODO: auto generate string
+        emitData.room = roomName;
+
+        let match = {
+          room: roomName,
+          player1: {
+            username: socket.username,
+            score: 0,
+            choice: ""
+          },
+          player2: {
+            username: data.opponent.username,
+            score: 0,
+            choice: ""
+          }
+        };
+
+        console.log("new match:", match);
+        console.log("<matches>:", matches);
+
+        matches.push(match);
+        socket.join(roomName);
+      }
+
+      socket.broadcast.to(data.opponent.id).emit("game-response", emitData);
+      console.log("sent game-response", emitData, "to", data.opponent.username);
+    });
+
+    socket.on("join", (data) => {
+      if (data.room.length > 0) {
+        socket.join(data.room, () => {
+          let match = searchMatch(data.room);
+          if (match != false) {
+            let emitData = {
+              match: match
+            };
+
+            io.to(data.room).emit("match", emitData);
+            console.log("sent match:", emitData, "to", data.room);
+
+            // TODO: send active matches
+            changeInMatchStatus(match.player1.username, match.player2.username);
+            console.log("<matches>:", matches);
+          }
+        });
+      }
+    });
 
     socket.on("disconnect", () => {
       let user = searchUser(socket.username);
@@ -79,6 +125,25 @@ const searchUser = (username) => {
 
   return false;
 };
+
+const searchMatch = (room) => {
+  for (match of matches) {
+    if (match.room == room) {
+      return match;
+    }
+  }
+
+  return false;
+};
+
+const changeInMatchStatus = (player1, player2) => {
+  let user1 = searchUser(player1);
+  user1.inMatch = !user1.inMatch;
+
+  let user2 = searchUser(player2);
+  user2.inMatch = !user2.inMatch;
+
+}
 
 
 module.exports = initialize;

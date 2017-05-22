@@ -23,9 +23,11 @@ export class GameRootComponent implements OnInit, OnDestroy {
   private choiceInterval; // automatically toggle oppChoices until he chooses one
   private receiveWelcomeObs: any;
   private receiveGameReqObs: any;
+  private receiveMatchObs: any;
   private showWaitModal: boolean;
   private showRequestModal: boolean;
   private opponent: any = {};
+  private match: any;
 
   constructor(
     private _gameService: GameService,
@@ -78,8 +80,14 @@ export class GameRootComponent implements OnInit, OnDestroy {
   }
 
   sendGameResponse(response: boolean): void {
-    this._gameService.sendGameResponse(response, this.opponent.id);
+    this._gameService.sendGameResponse(response, this.opponent);
     this.showRequestModal = false;
+
+    this.receiveMatchObs = this._gameService.receiveMatchData()
+      .subscribe(data => {
+        this.match = data.match;
+        console.log("match:", data);
+      });
 
     console.log("sent response:", response);
   }
@@ -150,6 +158,14 @@ export class GameRootComponent implements OnInit, OnDestroy {
         console.log("got response:", data);
         if (data.accepted == true) {
           this.dismissWaitModal();
+          this._gameService.sendJoinRequest(data.room);
+
+          this.receiveMatchObs = this._gameService.receiveMatchData()
+            .subscribe(data => {
+              this.match = data.match;
+              console.log("match:", data);
+            });
+
         } else {
           this.oppRefused = true;
         }

@@ -45,9 +45,9 @@ export class GameService {
     this.genericSend(event);
   }
 
-  sendGameResponse(response: boolean, oppId: string): void {
+  sendGameResponse(response: boolean, opponent: any): void {
     let event = "game-response";
-    let data = {"accepted": response, "id": oppId};
+    let data = {"accepted": response, "opponent": opponent};
 
     this.genericSend(event, data);
   }
@@ -55,6 +55,13 @@ export class GameService {
   sendGameRequest(id: string): void {
     let event = "game-request";
     let data = {id: id};
+
+    this.genericSend(event, data);
+  }
+
+  sendJoinRequest(room: string): void {
+    let event = "join";
+    let data = {room: room};
 
     this.genericSend(event, data);
   }
@@ -73,6 +80,10 @@ export class GameService {
 
   receiveGameResponse(): any {
     return this.genericReceiver("game-response");
+  }
+
+  receiveMatchData(): any {
+    return this.genericReceiver("match");
   }
 
 
