@@ -5,7 +5,7 @@
 </ul>
 <ul class="list-group ul-body">
   <li *ngFor="let game of games" class="list-group-item">
-    <span class="badge">{{game.score1}}-{{game.score2}}</span>
-    {{game.player1}} - {{game.player2}}
+    <span class="badge">{{game.player1.score}}-{{game.player2.score}}</span>
+    {{game.player1.username}} - {{game.player2.username}}
   </li>
 </ul>

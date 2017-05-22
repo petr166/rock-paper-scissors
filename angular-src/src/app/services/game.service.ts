@@ -74,6 +74,10 @@ export class GameService {
     return this.genericReceiver("active");
   }
 
+  receiveMatches(): any {
+    return this.genericReceiver("active-matches");
+  }
+
   receiveGameRequest(): any {
     return this.genericReceiver("game-request");
   }
