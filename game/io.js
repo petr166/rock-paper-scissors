@@ -56,7 +56,8 @@ const initialize = (server) => {
       let emitData = {accepted: data.accepted};
 
       if (data.accepted == true) {
-        let roomName = "room1"; // TODO: auto generate string
+        let roomName = generateRoom();
+        console.log("new room:", roomName);
         emitData.room = roomName;
 
         let match = {
@@ -147,6 +148,16 @@ const changeInMatchStatus = (player1, player2) => {
   let user2 = searchUser(player2);
   user2.inMatch = !user2.inMatch;
 
+}
+
+
+let roomNum = 0;
+const generateRoom = () => {
+  let room = "room";
+  room += roomNum;
+  roomNum++;
+
+  return room;
 }
 
 
