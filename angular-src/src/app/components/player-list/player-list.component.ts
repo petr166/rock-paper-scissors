@@ -29,11 +29,9 @@ export class PlayerListComponent implements OnInit, OnDestroy {
   initReceivers(): void {
     this.receiveActiveObs = this._gameService.receiveActive()
       .subscribe(data => {
-        if (data.active.length > 0) {
           this.playerList = data.active;
           this.removePlayer();
           console.log(data);
-        }
       });
   }
 

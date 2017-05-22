@@ -25,10 +25,8 @@ export class OngoingGamesComponent implements OnInit, OnDestroy {
   initReceivers(): void {
     this.receiveActiveObs = this._gameService.receiveMatches()
       .subscribe(data => {
-        if (data.matches.length > 0) {
           this.games = data.matches;
           console.log(data);
-        }
       });
   }
 

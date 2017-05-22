@@ -173,7 +173,7 @@ const initialize = (server) => {
 
           // the match ended
           if (ended == true) {
-            endMatch();
+            endMatch(match);
             io.emit("active", {active: users});
             io.emit("active-matches", {matches: matches});
 

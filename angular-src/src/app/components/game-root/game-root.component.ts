@@ -237,8 +237,6 @@ export class GameRootComponent implements OnInit, OnDestroy {
     } else {
       this.oppChoice = this.round.choice1;
     }
-    console.log(this.gameInfo.match.player.score);
-    console.log(this.gameInfo.match.opponent.score);
 
     if(this.round.winner == 0) {
       this.resultColor = '#033c73';
