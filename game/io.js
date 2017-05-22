@@ -98,6 +98,7 @@ const initialize = (server) => {
             // TODO: send active matches
             changeInMatchStatus(match.player1.username, match.player2.username);
             console.log("<matches>:", matches);
+            io.emit("active", {active: users});
           }
         });
       }
