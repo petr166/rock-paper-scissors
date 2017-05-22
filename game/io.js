@@ -179,7 +179,7 @@ const initialize = (server) => {
         let match = searchMatch(socket.matchRoom);
         if (match != false) {
           let emitData = {disconnected: socket.username};
-          io.to(socket.matchRoom).emit("disconnected", emitData);
+          socket.to(socket.matchRoom).emit("disconnected", emitData);
           endMatch(match);
         }
       }
