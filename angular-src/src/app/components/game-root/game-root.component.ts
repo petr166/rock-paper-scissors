@@ -24,6 +24,7 @@ export class GameRootComponent implements OnInit, OnDestroy {
   private receiveMatchObs: any;
   private receiveRoundResObs: any;
   private showWaitModal: boolean;
+  private showEndMatchModal: boolean;
   private showRequestModal: boolean;
   private opponent: any = {};
   private match: any;
@@ -44,6 +45,7 @@ export class GameRootComponent implements OnInit, OnDestroy {
     this.showMatchList = false;
     this.showWaitModal = false;
     this.showRequestModal = false;
+    this.showEndMatchModal = false;
 
     // this.username = "petru"; // we will use _authService to get the credentials
     this.username = this._authService.getUser().username || "petru";
@@ -106,8 +108,14 @@ export class GameRootComponent implements OnInit, OnDestroy {
         this.round = data;
         this.verifyWinner(choice);
 
+        this.resetRound();
+
+        this.receiveRoundResObs.unsubscribe();
+
         console.log(data);
     });
+
+
 
     if(this.choices.length == 3){
       this.toggleOppChoice();
@@ -136,6 +144,19 @@ export class GameRootComponent implements OnInit, OnDestroy {
         this.oppChoice = 'rock';
       }
     }, 500);
+  }
+
+  resetRound(){
+    if(this.round.ended == true) {
+      this.resultColor = '#ffffff';
+      this.matchOn = false;
+      this.showEndMatchModal = true;
+    } else {
+      setTimeout(()=>{
+        this.resultColor = '#ffffff';
+        this.initializeChoices();
+    }, 3000);
+    }
   }
 
   // getResult(myChoice){
@@ -216,6 +237,8 @@ export class GameRootComponent implements OnInit, OnDestroy {
     } else {
       this.oppChoice = this.round.choice1;
     }
+    console.log(this.gameInfo.match.player.score);
+    console.log(this.gameInfo.match.opponent.score);
 
     if(this.round.winner == 0) {
       this.resultColor = '#033c73';
@@ -233,6 +256,11 @@ export class GameRootComponent implements OnInit, OnDestroy {
   dismissWaitModal(): void {
     this.showWaitModal = false;
     this.oppRefused = false;
+  }
+
+  dismissEndMatchModal(): void {
+    this.showEndMatchModal = false;
+    this.gameInfo = {};
   }
 
   startMatch(): void {

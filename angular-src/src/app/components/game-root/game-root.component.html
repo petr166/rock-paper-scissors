@@ -156,14 +156,14 @@
 
 
 <!-- TODO: Add 1 sec timeout before showing this  -->
-<!-- <div id="gameOver" class="modal">
+ <div *ngIf="showEndMatchModal" class="modal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body text-center">
-        <h2 *ngIf="myScore == 2">You won !!!</h2><br />
-        <h2 *ngIf="oppScore == 2">You lost !!!</h2><br />
-        <button (click)="endGame();selectChoice(rock);" class="btn btn-primary" data-dismiss="modal">Ok</button>
+        <h2 *ngIf="gameInfo.match.player.score == 2">You won!!!</h2>
+        <h2 *ngIf="gameInfo.match.opponent.score == 2">You lost!!!</h2><br />
+        <button class="btn btn-primary" (click)="dismissEndMatchModal()" data-dismiss="modal">Ok</button>
       </div>
     </div>
   </div>
-</div> -->
+</div>
