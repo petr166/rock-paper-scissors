@@ -26,7 +26,7 @@
         <div class="box">
           <div class="well score">
             <div class="number">
-              <strong>{{myScore}}</strong>
+              <strong *ngIf="gameInfo.match">{{gameInfo.match.player.score}}</strong>
             </div>
             <div class="name">
               <p>{{username}}</p>
@@ -49,10 +49,10 @@
         <div class="box">
           <div class="well score">
             <div class="number">
-              <strong *ngIf="matchOn">{{oppScore}}</strong>
+              <strong *ngIf="gameInfo.match">{{gameInfo.match.opponent.score}}</strong>
             </div>
             <div class="name">
-              <p *ngIf="matchOn">dana</p> <!--TODO: style this properly when !matchOn-->
+              <p *ngIf="gameInfo.match">{{gameInfo.match.opponent.username}}</p> <!--TODO: style this properly when !matchOn-->
             </div>
           </div>
         </div>

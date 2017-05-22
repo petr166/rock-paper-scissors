@@ -28,6 +28,7 @@ export class GameRootComponent implements OnInit, OnDestroy {
   private showRequestModal: boolean;
   private opponent: any = {};
   private match: any;
+  private gameInfo: any = {};
 
   constructor(
     private _gameService: GameService,
@@ -86,6 +87,8 @@ export class GameRootComponent implements OnInit, OnDestroy {
     this.receiveMatchObs = this._gameService.receiveMatchData()
       .subscribe(data => {
         this.match = data.match;
+        this.verifyPlayer();
+
         console.log("match:", data);
       });
 
@@ -163,6 +166,7 @@ export class GameRootComponent implements OnInit, OnDestroy {
           this.receiveMatchObs = this._gameService.receiveMatchData()
             .subscribe(data => {
               this.match = data.match;
+              this.verifyPlayer();
               console.log("match:", data);
             });
 
@@ -173,6 +177,23 @@ export class GameRootComponent implements OnInit, OnDestroy {
         subscription.unsubscribe();
       });
   };
+
+  verifyPlayer(): void {
+    let match = {
+      "player": {},
+      "opponent": {}
+    };
+
+    if(this.username == this.match.player1.username) {
+      match.player = this.match.player1;
+      match.opponent = this.match.player2;
+    } else {
+      match.player = this.match.player2;
+      match.opponent = this.match.player1;
+    }
+
+    this.gameInfo.match = match;
+  }
 
   dismissWaitModal(): void {
     this.showWaitModal = false;
