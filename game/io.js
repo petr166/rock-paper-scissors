@@ -183,8 +183,8 @@ const initialize = (server) => {
 
         let match = searchMatch(socket.matchRoom);
         if (match != false) {
-          let emitData = {disconnected: socket.username};
-          socket.to(socket.matchRoom).emit("disconnected", emitData);
+          let emitData = {left: socket.username};
+          socket.to(socket.matchRoom).emit("leave-match", emitData);
           endMatch(match);
         }
       }
