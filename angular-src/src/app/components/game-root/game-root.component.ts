@@ -104,7 +104,7 @@ export class GameRootComponent implements OnInit, OnDestroy {
     this.receiveRoundResObs = this._gameService.receiveRoundResult()
       .subscribe(data => {
         this.round = data;
-        this.verifyChoice(choice);
+        this.verifyWinner(choice);
 
         console.log(data);
     });
@@ -209,11 +209,24 @@ export class GameRootComponent implements OnInit, OnDestroy {
     this.gameInfo.match = match;
   }
 
-  verifyChoice(choice: string): void {
-    if(choice == this.round.choice1) {
-      this.gameInfo.match.player.score++;
+  verifyWinner(choice: string): void {
+    clearInterval(this.choiceInterval);
+    if(choice == this.round.choice1){
+      this.oppChoice = this.round.choice2;
     } else {
-      this.gameInfo.match.opponent.score++;
+      this.oppChoice = this.round.choice1;
+    }
+
+    if(this.round.winner == 0) {
+      this.resultColor = '#033c73';
+    } else {
+      if (this.username == this.round.winner){
+        this.resultColor = '#73a839';
+        this.gameInfo.match.player.score++;
+      } else {
+        this.resultColor = '#c71c22';
+        this.gameInfo.match.opponent.score++;
+      }
     }
   }
 
