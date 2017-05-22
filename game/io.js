@@ -1,31 +1,36 @@
 const socketIo = require('socket.io');
 
+// arrays to store the dynamic data
 const users = [];
 const matches = [];
 const sockets = [];
 
+// starting point - takes an http server
 const initialize = (server) => {
-
-  const io = socketIo(server);
+  const io = socketIo(server); // create the socketIo namespace (we just use the default one)
   console.log("socket.io server started!");
 
+  // handles the "connection" event (first to happen when a client connects)
   io.on("connection", (socket) => {
-    sockets.push(socket);
+    sockets.push(socket); // store the socket
     socket.emit("welcome", {message: "Welcome to our game server!"});
 
+
+    // "username" event - we need the username to easily mark our <user> and <socket> objects
     socket.on("username", (data) => {
       if (data.username.length > 0) {
         socket.username = data.username;
+
         let user = {
           username: data.username,
           id: socket.id,
           inMatch: false
         };
 
-        let existing = searchUser(user.username);
+        let existing = searchUser(user.username); // TODO remove, because we check the username duplicate on authentication
         if (existing == false) {
-          users.push(user);
-          io.emit("active", {active: users});
+          users.push(user); // store the user object
+          io.emit("active", {active: users}); // send the active list to all clients
         }
 
         console.log("[%s] connected", user.username);
@@ -34,18 +39,20 @@ const initialize = (server) => {
       }
     });
 
+
+    // "get-active" event - send the lists on demand
     socket.on("get-active", () => {
       socket.emit("active", {active: users});
       socket.emit("active-matches", {matches: matches});
     });
 
+
+    // "game-request" event - send the request to the challanged user
     socket.on("game-request", (data) => {
       if (data.id.length > 0) {
         let opponent = searchUser(socket.username);
         if (opponent != false) {
-          let emitData = {
-            opponent: opponent
-          };
+          let emitData = {opponent: opponent};
           socket.broadcast.to(data.id).emit("game-request", emitData);
 
           console.log("sent game-request with", emitData, "to", data);
@@ -53,12 +60,13 @@ const initialize = (server) => {
       }
     });
 
+
+    // "game-response" event - sends the response to the challanger
+    // if accepted, creates the <match> object and the new room for sockets communiction
     socket.on("game-response", data => {
       let emitData = {accepted: data.accepted};
-
       if (data.accepted == true) {
         let roomName = generateRoom();
-        console.log("new room:", roomName);
         emitData.room = roomName;
 
         let match = {
@@ -87,42 +95,42 @@ const initialize = (server) => {
       console.log("sent game-response", emitData, "to", data.opponent.username);
     });
 
+
+    // "join" event - socket joins the match room, <match> object is broadcasted to the room
     socket.on("join", (data) => {
       if (data.room.length > 0) {
         socket.join(data.room, () => {
           let match = searchMatch(data.room);
           if (match != false) {
-            let emitData = {
-              match: match
-            };
-
+            let emitData = {match: match};
             io.to(data.room).emit("match", emitData);
             socket.matchRoom = match.room;
-            console.log("sent match:", emitData, "to", data.room);
 
-            // TODO: send active matches
             changeInMatchStatus(match.player1.username, match.player2.username);
-            console.log("<matches>:", matches);
-            console.log("<users>:", users);
             io.emit("active", {active: users});
             io.emit("active-matches", {matches: matches});
+
+            console.log("<matches>:", matches);
+            console.log("<users>:", users);
           }
         });
       }
     });
 
+
+    // "choice" event - user places his choice
+    // if both users chosen, check the winner and send the "round" event with data
     socket.on("choice", (data) => {
       console.log("choice:", data);
       let match = searchMatch(data.room);
       if (match != false) {
-
         if (match.player1.username == data.username) {
           match.player1.choice = data.choice;
         } else if (match.player2.username == data.username) {
           match.player2.choice = data.choice;
         }
 
-        if (match.player1.choice.length > 0 && match.player2.choice.length > 0) {
+        if (match.player1.choice.length > 0 && match.player2.choice.length > 0) { // both users chosen
           let winner = checkWinner(match.player1.choice, match.player2.choice);
           let winnerName = 0;
 
@@ -163,31 +171,38 @@ const initialize = (server) => {
           io.emit("active-matches", {matches: matches});
           console.log("round end:", emitData);
 
+          // the match ended
           if (ended == true) {
             endMatch();
-            console.log("match ended:", match);
-            console.log("<matches>:", matches);
-            console.log("<users>:", users);
             io.emit("active", {active: users});
             io.emit("active-matches", {matches: matches});
+
+            console.log("<matches>:", matches);
+            console.log("<users>:", users);
           }
         }
       }
     });
 
+
+    // "disconnect" event - removes the socket data, and match if there is
     socket.on("disconnect", () => {
       let user = searchUser(socket.username);
       if (user != false) {
         users.splice(users.indexOf(user), 1);
-        io.emit("active", {active: users});
 
         let match = searchMatch(socket.matchRoom);
         if (match != false) {
           let emitData = {left: socket.username};
-          socket.to(socket.matchRoom).emit("leave-match", emitData);
+          socket.to(socket.matchRoom).emit("leave-match", emitData); // opponent disconnected
           endMatch(match);
         }
+
+        sockets.splice(sockets.indexOf(socket), 1);
       }
+
+      io.emit("active", {active: users});
+      io.emit("active-matches", {matches: matches});
 
       console.log("[%s] disconnected", socket.username);
       console.log("<users>:", users);
@@ -196,13 +211,15 @@ const initialize = (server) => {
   });
 }
 
+
+// helper functions
+
 const searchUser = (username) => {
   for (user of users) {
     if (user.username == username) {
       return user;
     }
   }
-
   return false;
 };
 
@@ -212,7 +229,6 @@ const searchMatch = (room) => {
       return match;
     }
   }
-
   return false;
 };
 
@@ -222,7 +238,6 @@ const changeInMatchStatus = (player1, player2) => {
 
   let user2 = searchUser(player2);
   user2.inMatch = !user2.inMatch;
-
 }
 
 let roomNum = 0;
@@ -238,19 +253,22 @@ const checkWinner = (choice1, choice2) => {
   if ((choice1 == 'rock' && choice2 == 'paper') ||
      (choice1 == 'paper' && choice2 == 'scissors') ||
      (choice1 == 'scissors' && choice2 == 'rock')) {
-       return 2;
+       return 2; // player2
 
   } else if(choice1 == choice2){
-      return 0;
+      return 0; // draw
   }
 
-  return 1;
+  return 1; // player1
 }
 
+
+// removes the match and clear its room
 const endMatch = (match) => {
   let matchIndex = matches.indexOf(match);
   if (matchIndex > -1) {
     matches.splice(matchIndex, 1);
+    changeInMatchStatus(match.player1.username, match.player2.username);
     console.log("match end:", match);
 
     for (socket of sockets) {
