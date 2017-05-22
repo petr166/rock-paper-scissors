@@ -35,6 +35,7 @@ const initialize = (server) => {
 
     socket.on("get-active", () => {
       socket.emit("active", {active: users});
+      socket.emit("active-matches", {matches: matches});
     });
 
     socket.on("game-request", (data) => {
@@ -55,7 +56,8 @@ const initialize = (server) => {
       let emitData = {accepted: data.accepted};
 
       if (data.accepted == true) {
-        let roomName = "room1"; // TODO: auto generate string
+        let roomName = generateRoom();
+        console.log("new room:", roomName);
         emitData.room = roomName;
 
         let match = {
@@ -98,7 +100,9 @@ const initialize = (server) => {
             // TODO: send active matches
             changeInMatchStatus(match.player1.username, match.player2.username);
             console.log("<matches>:", matches);
+            console.log("<users>:", users);
             io.emit("active", {active: users});
+            io.emit("active-matches", {matches: matches});
           }
         });
       }
@@ -144,6 +148,16 @@ const changeInMatchStatus = (player1, player2) => {
   let user2 = searchUser(player2);
   user2.inMatch = !user2.inMatch;
 
+}
+
+
+let roomNum = 0;
+const generateRoom = () => {
+  let room = "room";
+  room += roomNum;
+  roomNum++;
+
+  return room;
 }
 
 
