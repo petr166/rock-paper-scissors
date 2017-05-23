@@ -146,7 +146,7 @@ export class GameRootComponent implements OnInit, OnDestroy {
       }else{
         this.oppChoice = 'rock';
       }
-    }, 500);
+    }, 200);
   }
 
   onPlayersClick(): void {
@@ -244,7 +244,9 @@ export class GameRootComponent implements OnInit, OnDestroy {
 
   resetRound(): void {
     if(this.round.ended == true) {
-      this.showEndMatchModal = true;
+      setTimeout(() => {
+        this.showEndMatchModal = true;
+      }, 1000);
     } else {
       setTimeout(()=>{
         this.resultColor = '#ffffff';

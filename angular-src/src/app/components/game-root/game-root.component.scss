@@ -97,9 +97,13 @@
   .game-content {
     .choices-container {
       .box {
-        padding: 13px;
-        width: 100px;
-        height: 100px;
+            padding: 0.9em;
+            width: 6em;
+            height: 6em;
+
+        .fa-5x {
+          font-size: 4em;
+        }
 
         i{
           -webkit-transform: scale(0.6);
@@ -117,6 +121,18 @@
                      transform: scale(0.8);
           }
         }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 800px){
+  .game-content{
+    .choices-container{
+      .box {
+        padding: 0.4em;
+        width: 5em;
+        height: 5em;
       }
     }
   }
@@ -166,7 +182,7 @@
   .game-content{
     .choices-container{
       .box{
-        padding: 3px;
+        padding: 5px;
         width: 77px;
         height: 77px;
 
@@ -202,7 +218,7 @@
   margin: 0;
   margin-top: -21px;
   border: none;
-  @include border-radius-separate($topLeftRadius: 0, $topRightRadius: 0, $bottomLeftRadius: 5px, $bottomRightRadius: 5px)
+  @include border-radius-separate($topLeftRadius: 0, $topRightRadius: 0, $bottomLeftRadius: 5px, $bottomRightRadius: 5px);
   @include box-shadow($x: 0px, $y: 2px);
   background-color: lighten(#2fa4e7, 10%);
 
