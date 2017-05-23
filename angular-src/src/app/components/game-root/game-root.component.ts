@@ -244,7 +244,6 @@ export class GameRootComponent implements OnInit, OnDestroy {
 
   resetRound(): void {
     if(this.round.ended == true) {
-      this.endMatch();
       this.showEndMatchModal = true;
     } else {
       setTimeout(()=>{
@@ -258,8 +257,8 @@ export class GameRootComponent implements OnInit, OnDestroy {
     this.resultColor = '#ffffff';
     this.matchOn = false;
     this.initializeChoices();
-    this.gameInfo = {};
     this.receiveLeaveMatchObs.unsubscribe();
+    this.gameInfo = {};
   }
 
   dismissWaitModal(): void {
@@ -268,10 +267,12 @@ export class GameRootComponent implements OnInit, OnDestroy {
   }
 
   dismissEndMatchModal(): void {
+    this.endMatch();
     this.showEndMatchModal = false;
   }
 
   dismissLeaveMatchModal(): void {
+    this.endMatch();
     this.showLeaveMatchModal = false;
   }
 }
