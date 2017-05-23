@@ -1,50 +1,52 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+
+import { GameService } from '../../services/game.service';
 
 @Component({
   selector: 'app-ongoing-games',
   templateUrl: './ongoing-games.component.html',
   styleUrls: ['./ongoing-games.component.scss']
 })
-export class OngoingGamesComponent implements OnInit {
+export class OngoingGamesComponent implements OnInit, OnDestroy {
   private games: Object[];
+  private receiveActiveObs: any;
 
-  constructor() { }
+  constructor(private _gameService: GameService) { }
 
   ngOnInit() {
-    this.games = [
-      {"player1":"Test","player2":"Haha","score1":1,"score2":1},
-      {"player1":"Petru","player2":"Boy","score1":1,"score2":2},
-      {"player1":"Miau","player2":"Blabla","score1":0,"score2":1},
-      {"player1":"Miau","player2":"Blabla","score1":0,"score2":1},
-      {"player1":"Miau","player2":"Blabla","score1":0,"score2":1},
-      {"player1":"Miau","player2":"Blabla","score1":0,"score2":1},
-      {"player1":"Miau","player2":"Blabla","score1":0,"score2":1},
-      {"player1":"Miau","player2":"Blabla","score1":0,"score2":1},
-      {"player1":"Miau","player2":"Blabla","score1":0,"score2":1},
-      {"player1":"Miau","player2":"Blabla","score1":0,"score2":1},
-      {"player1":"Miau","player2":"Blabla","score1":0,"score2":1},
-      {"player1":"Miau","player2":"Blabla","score1":0,"score2":1},
-      {"player1":"Miau","player2":"Blabla","score1":0,"score2":1},
-      {"player1":"Miau","player2":"Blabla","score1":0,"score2":1},
-      {"player1":"Miau","player2":"Blabla","score1":0,"score2":1},
-      {"player1":"el","player2":"ea","score1":0,"score2":0}
-    ];
-
+    this.initReceivers();
+    this._gameService.sendGetActive();
   }
 
-  getPlayersInMatch(){
-    let players: string[] = [];
+  ngOnDestroy() {
+    this.destroyReceivers();
+  }
 
-    for (let game of this.games) {
-      if (players.indexOf(game['player1']) == -1) {
-        players.push(game['player1']);
-      }
-      if (players.indexOf(game['player2']) == -1) {
-        players.push(game['player2']);
-      }
-    }
+  initReceivers(): void {
+    this.receiveActiveObs = this._gameService.receiveMatches()
+      .subscribe(data => {
+          this.games = data.matches;
+          console.log(data);
+      });
+  }
 
-    return players;
+  // getPlayersInMatch(){
+  //   let players: string[] = [];
+
+  //   for (let game of this.games) {
+  //     if (players.indexOf(game['player1']) == -1) {
+  //       players.push(game['player1']);
+  //     }
+  //     if (players.indexOf(game['player2']) == -1) {
+  //       players.push(game['player2']);
+  //     }
+  //   }
+
+  //   return players;
+  // }
+
+  destroyReceivers(): void {
+    this.receiveActiveObs.unsubscribe();
   }
 
 }

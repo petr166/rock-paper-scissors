@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { ValidateService } from '../../services/validate.service';
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: 'app-login',
@@ -12,9 +14,12 @@ export class LoginComponent implements OnInit {
   username: string;
   password: string;
 
-  constructor(private flashMessage: FlashMessagesService,
-              private validateService: ValidateService,
-              private router: Router) { }
+  constructor(
+    private flashMessage: FlashMessagesService,
+    private _validateService: ValidateService,
+    private router: Router,
+    private _authService: AuthService
+  ) { }
 
   ngOnInit() {
   }
@@ -25,23 +30,26 @@ export class LoginComponent implements OnInit {
       password: this.password
     }
 
+    this._authService.setUser(user);
+    this.router.navigate(['/game']);
+
     // Custom Validations
     if(user.username == 'test' && user.password == '123'){
       this.flashMessage.show('You are now logged in', {cssClass: 'alert-success', timeout: 3000});
-      this.router.navigate(['']);
+      this.router.navigate(['/']);
     }
-    if(this.validateService.isUndefined(user.username) || this.validateService.isUndefined(user.password)){
+    if(this._validateService.isUndefined(user.username) || this._validateService.isUndefined(user.password)){
       this.flashMessage.show('Please fill in all fields.', {cssClass: 'alert-danger', timeout: 3000});
       return false;
     }
-    if(user.username != 'test'){
-      this.flashMessage.show("Username doesn't exist.", {cssClass: 'alert-danger', timeout: 3000});
-      return false;
-    }
-    if(user.password != '123'){
-      this.flashMessage.show("Wrong password.", {cssClass: 'alert-danger', timeout: 3000});
-      return false;
-    }
+    // if(user.username != 'test'){
+    //   this.flashMessage.show("Username doesn't exist.", {cssClass: 'alert-danger', timeout: 3000});
+    //   return false;
+    // }
+    // if(user.password != '123'){
+    //   this.flashMessage.show("Wrong password.", {cssClass: 'alert-danger', timeout: 3000});
+    //   return false;
+    // }
   }
 
 }
