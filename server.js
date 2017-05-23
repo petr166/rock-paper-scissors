@@ -5,20 +5,20 @@ const logger = require('morgan');
 const cors = require('cors');
 const passport = require('passport');
 const mongoose = require('mongoose');
-// const config = require('./config/database');
+const config = require('./config/database');
 const io = require('./game/io');
 
 // import routes
 
-// connect to database
-// mongoose.connect(config.database);
-//
-// mongoose.connection.on('connected', () => {
-//   console.log("connected to database:", config.database);
-// });
-// mongoose.connection.on('error', (err) => {
-//   console.log("database error:", err.message);
-// });
+//connect to database
+mongoose.connect(config.database);
+
+mongoose.connection.on('connected', () => {
+  console.log("connected to database:", config.database);
+});
+mongoose.connection.on('error', (err) => {
+  console.log("database error:", err.message);
+});
 
 // initialize the app
 const app = express();
