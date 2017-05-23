@@ -9,6 +9,7 @@ const config = require('./config/database');
 const io = require('./game/io');
 
 // import routes
+const userRoutes = require("./routes/user");
 
 //connect to database
 mongoose.connect(config.database);
@@ -39,8 +40,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // set routes
-// app.use('/users', usersRoutes);
-// app.use('/messages', messagesRoutes);
+app.use('/user', userRoutes);
 
 app.get('/', (req, res) => {
   res.send("Invalid Endpoint");

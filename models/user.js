@@ -16,8 +16,7 @@ const UserSchema = mongoose.Schema({
   email: {
     type: String,
     required: true,
-    trim: true,
-    unique: true
+    trim: true
   },
   password: {
     type: String,
@@ -34,8 +33,8 @@ const UserSchema = mongoose.Schema({
   wins: {
     type: Number
   },
-  matches: {//array with match ids
-    type: String[]
+  matches: { //array with match ids
+    type: [String]
   }
 });
 
@@ -50,7 +49,7 @@ UserSchema.statics.getByUsername = (username, callback) => {
 };
 
 UserSchema.statics.addUser = (userToAdd, callback) => {
-  User.getUserByUsername(userToAdd.username, (err, user) => {
+  User.getByUsername(userToAdd.username, (err, user) => {
     if (err) {
       let error = {msg: "There was a problem searching for the user"};
       callback(error);
