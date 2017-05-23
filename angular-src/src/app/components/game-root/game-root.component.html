@@ -167,3 +167,15 @@
     </div>
   </div>
 </div>
+
+ <div *ngIf="showLeaveMatchModal" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <h2>Sorry, your opponent left the match...</h2><br />
+        <button class="btn btn-primary" (click)="dismissLeaveMatchModal()" data-dismiss="modal">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
+

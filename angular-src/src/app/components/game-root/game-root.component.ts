@@ -23,9 +23,11 @@ export class GameRootComponent implements OnInit, OnDestroy {
   private receiveGameReqObs: any;
   private receiveMatchObs: any;
   private receiveRoundResObs: any;
+  private receiveLeaveMatchObs: any;
   private showWaitModal: boolean;
   private showEndMatchModal: boolean;
   private showRequestModal: boolean;
+  private showLeaveMatchModal: boolean;
   private opponent: any = {};
   private match: any;
   private round: any;
@@ -46,6 +48,7 @@ export class GameRootComponent implements OnInit, OnDestroy {
     this.showWaitModal = false;
     this.showRequestModal = false;
     this.showEndMatchModal = false;
+    this.showLeaveMatchModal = false;
 
     // this.username = "petru"; // we will use _authService to get the credentials
     this.username = this._authService.getUser().username || "petru";
@@ -146,32 +149,6 @@ export class GameRootComponent implements OnInit, OnDestroy {
     }, 500);
   }
 
-  resetRound(){
-    if(this.round.ended == true) {
-      this.resultColor = '#ffffff';
-      this.matchOn = false;
-      this.showEndMatchModal = true;
-    } else {
-      setTimeout(()=>{
-        this.resultColor = '#ffffff';
-        this.initializeChoices();
-    }, 3000);
-    }
-  }
-
-  // getResult(myChoice){
-  //   if((myChoice == 'rock' && this.oppChoice == 'paper') ||
-  //      (myChoice == 'paper' && this.oppChoice == 'scissors') ||
-  //      (myChoice == 'scissors' && this.oppChoice == 'rock')){
-  //        this.oppScore ++;
-  //        return '#c71c22'; //lose
-  //   }else if(myChoice == this.oppChoice){
-  //     return '#033c73'; //draw
-  //   }
-  //   this.myScore ++;
-  //   return '#73a839'; //win
-  // }
-
   onPlayersClick(): void {
     this.showMatchList = false;
     this.showPlayerList = !this.showPlayerList;
@@ -251,6 +228,40 @@ export class GameRootComponent implements OnInit, OnDestroy {
     }
   }
 
+  startMatch(): void {
+    this.matchOn = true;
+    this.leaveMatch();
+  }
+
+  leaveMatch(): void {
+    this.receiveLeaveMatchObs = this._gameService.receiveLeaveMatch()
+      .subscribe(data => {
+        this.showLeaveMatchModal = true;
+        this.endMatch();
+        console.log(data);
+      });
+  }
+
+  resetRound(): void {
+    if(this.round.ended == true) {
+      this.endMatch();
+      this.showEndMatchModal = true;
+    } else {
+      setTimeout(()=>{
+        this.resultColor = '#ffffff';
+        this.initializeChoices();
+    }, 3000);
+    }
+  }
+
+  endMatch():void {
+    this.resultColor = '#ffffff';
+    this.matchOn = false;
+    this.initializeChoices();
+    this.gameInfo = {};
+    this.receiveLeaveMatchObs.unsubscribe();
+  }
+
   dismissWaitModal(): void {
     this.showWaitModal = false;
     this.oppRefused = false;
@@ -258,10 +269,9 @@ export class GameRootComponent implements OnInit, OnDestroy {
 
   dismissEndMatchModal(): void {
     this.showEndMatchModal = false;
-    this.gameInfo = {};
   }
 
-  startMatch(): void {
-    this.matchOn = true;
+  dismissLeaveMatchModal(): void {
+    this.showLeaveMatchModal = false;
   }
 }

@@ -105,6 +105,10 @@ export class GameService {
     return this.genericReceiver("round");
   }
 
+  receiveLeaveMatch(): any {
+    return this.genericReceiver("leave-match");
+  }
+
   // generic method for creating an observable listening to a specific event
   genericReceiver(event: string): any {
     let observable = new Observable(observer => {
