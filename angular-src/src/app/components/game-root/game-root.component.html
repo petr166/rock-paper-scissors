@@ -39,9 +39,9 @@
             <h4 *ngIf="!matchOn">Please choose an opponent from the left</h4>
             <ng-container *ngIf="matchOn">
               <h4 *ngIf="resultColor == '#ffffff'">Game on</h4>
-              <h4 *ngIf="resultColor == '#73a839'">Win</h4>
-              <h4 *ngIf="resultColor == '#c71c22'">Lose</h4>
-              <h4 *ngIf="resultColor == '#033c73'">Draw</h4>
+              <h4 *ngIf="resultColor == '#73a839'" class="result-div">Win</h4>
+              <h4 *ngIf="resultColor == '#c71c22'" class="result-div">Lose</h4>
+              <h4 *ngIf="resultColor == '#033c73'" class="result-div">Draw</h4>
             </ng-container>
           </div>
         </div>
