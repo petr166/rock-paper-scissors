@@ -33,6 +33,7 @@ export class GameRootComponent implements OnInit, OnDestroy {
   private round: any;
   private gameInfo: any = {};
   private matchOn: boolean;
+  private dropAnimation: boolean;
 
   constructor(
     private _gameService: GameService,
@@ -252,16 +253,19 @@ export class GameRootComponent implements OnInit, OnDestroy {
       setTimeout(()=>{
         this.resultColor = '#ffffff';
         this.initializeChoices();
-    }, 3000);
+    }, 2000);
     }
   }
 
   endMatch():void {
-    this.resultColor = '#ffffff';
-    this.matchOn = false;
-    this.initializeChoices();
-    this.receiveLeaveMatchObs.unsubscribe();
-    this.gameInfo = {};
+    this.dropAnimation = !this.dropAnimation;
+    setTimeout(() => {
+      this.resultColor = '#ffffff';
+      this.matchOn = false;
+      this.initializeChoices();
+      this.receiveLeaveMatchObs.unsubscribe();
+      this.gameInfo = {};
+    }, 300)
   }
 
   dismissWaitModal(): void {
