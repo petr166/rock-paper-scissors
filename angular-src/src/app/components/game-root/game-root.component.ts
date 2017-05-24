@@ -169,6 +169,7 @@ export class GameRootComponent implements OnInit, OnDestroy {
     let subscription = this._gameService.receiveGameResponse()
       .subscribe(data => {
         console.log("got response:", data);
+        this.showPlayerList = !this.showPlayerList;
         if (data.accepted == true) {
           this.dismissWaitModal();
           this._gameService.sendJoinRequest(data.room);
