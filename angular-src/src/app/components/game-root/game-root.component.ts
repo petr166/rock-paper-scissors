@@ -259,13 +259,15 @@ export class GameRootComponent implements OnInit, OnDestroy {
 
   endMatch():void {
     this.dropAnimation = !this.dropAnimation;
+    this.gameInfo = {};
+
     setTimeout(() => {
       this.resultColor = '#ffffff';
       this.matchOn = false;
+      this.dropAnimation = !this.dropAnimation;
       this.initializeChoices();
       this.receiveLeaveMatchObs.unsubscribe();
-      this.gameInfo = {};
-    }, 300)
+    }, 300);
   }
 
   dismissWaitModal(): void {
