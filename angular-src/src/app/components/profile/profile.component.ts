@@ -20,15 +20,15 @@ export class ProfileComponent implements OnInit {
               private authService: AuthService) { }
 
   ngOnInit() {
+    this.user = {};
+    const id = JSON.parse(localStorage.getItem('user'))._id;
+
     // pull user data from backend
-    this.user = {
-      name: "Petru Birzu",
-      email: "petru.birzu96@gmail.com",
-      username: "petru",
-      avatar: "https://api.adorable.io/avatars/140/abott@adorable.png",
-      played: 10,
-      wins: 6
-    };
+    this.authService.getProfile(id).subscribe(profile => {
+      this.user = profile.user;
+    }, err => {
+      return false;
+    });
     this.user.loses = this.calcLoses(this.user);
     this.user.winRatio = this.calcWinRatio(this.user);
 
@@ -36,7 +36,6 @@ export class ProfileComponent implements OnInit {
       oldPass: ['', Validators.required],
       newPass: ['', Validators.required]
     });
-
   }
 
   onChangePassSubmit() {
