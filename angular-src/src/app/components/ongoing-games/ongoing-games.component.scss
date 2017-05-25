@@ -2,7 +2,7 @@
 
 ul{
   border-radius: 10px;
-  @include box-shadow($x: 6px, $y: 6px, $blur: 10px, $color: #888888);
+  @include box-shadow($x: 0px, $y: 0px, $blur: 10px, $color: #888888);
 }
 .ul-heading{
   margin-bottom: -12px;
@@ -12,9 +12,9 @@ ul{
   }
 }
 .ul-body{
-  overflow: scroll;
-  max-height: 67vh;
-  height: 67vh;
+  overflow: auto;
+  max-height: 50vh;
+  height: 50vh;
 }
 
 @media screen and (max-width: 1024px){

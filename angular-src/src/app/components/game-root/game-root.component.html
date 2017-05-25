@@ -35,13 +35,13 @@
         </div>
 
         <div class="box message-box">
-          <div class="jumbotron" [ngStyle]="{'background-color': resultColor}">
+          <div class="jumbotron" [ngStyle]="{'background-color': resultColor, 'transition': 'background-color 0.3s'}">
             <h4 *ngIf="!matchOn">Please choose an opponent from the left</h4>
             <ng-container *ngIf="matchOn">
               <h4 *ngIf="resultColor == '#ffffff'">Game on</h4>
-              <h4 *ngIf="resultColor == '#73a839'">Win</h4>
-              <h4 *ngIf="resultColor == '#c71c22'">Lose</h4>
-              <h4 *ngIf="resultColor == '#033c73'">Draw</h4>
+              <h4 *ngIf="resultColor == '#73a839'" class="result-div">Win</h4>
+              <h4 *ngIf="resultColor == '#c71c22'" class="result-div">Lose</h4>
+              <h4 *ngIf="resultColor == '#033c73'" class="result-div">Draw</h4>
             </ng-container>
           </div>
         </div>
@@ -58,7 +58,7 @@
         </div>
       </div>
 
-      <div *ngIf="matchOn" class="choices-container">
+      <div *ngIf="matchOn" class="choices-container"  [ngClass]="{'add-choices': matchOn, 'drop-choices': dropAnimation}">
         <div *ngFor="let choice of choices;" (click)="selectChoice(choice)" class="btn btn-warning box">
           <i class="fa fa-hand-{{choice}}-o fa-5x myChoices" aria-hidden="true"></i>
         </div>
