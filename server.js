@@ -32,9 +32,9 @@ app.use(cors());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(passport.initialize());
-// app.use(passport.session());
-// require('./config/passport')(passport);
+app.use(passport.initialize());
+app.use(passport.session());
+require('./config/passport')(passport);
 
 // static folder
 app.use(express.static(path.join(__dirname, 'public')));
