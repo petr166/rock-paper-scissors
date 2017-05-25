@@ -28,6 +28,7 @@ a:hover, a:focus {
 
 ul{
   border-radius: 10px;
+  margin-bottom: 0px;
   @include box-shadow($x: 0px, $y: 0px, $blur: 10px, $color: #888888);
 }
 .ul-heading{

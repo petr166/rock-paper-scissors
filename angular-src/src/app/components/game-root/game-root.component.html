@@ -38,10 +38,13 @@
           <div class="jumbotron" [ngStyle]="{'background-color': resultColor, 'transition': 'background-color 0.3s'}">
             <h4 *ngIf="!matchOn">Please choose an opponent from the left</h4>
             <ng-container *ngIf="matchOn">
-              <h4 *ngIf="resultColor == '#ffffff'">Game on</h4>
-              <h4 *ngIf="resultColor == '#73a839'" class="result-div">Win</h4>
-              <h4 *ngIf="resultColor == '#c71c22'" class="result-div">Lose</h4>
-              <h4 *ngIf="resultColor == '#033c73'" class="result-div">Draw</h4>
+              <div *ngIf="resultColor == '#ffffff'">
+                <h4>GAME ON</h4>
+                <p>Place your choice</p>
+              </div>
+              <h4 *ngIf="resultColor == '#73a839'" class="result-div">YOU WIN</h4>
+              <h4 *ngIf="resultColor == '#c71c22'" class="result-div">YOU LOSE</h4>
+              <h4 *ngIf="resultColor == '#033c73'" class="result-div">YOU TIED</h4>
             </ng-container>
           </div>
         </div>
@@ -105,7 +108,7 @@
     <div class="modal-content">
       <div class="modal-body text-center">
         <div *ngIf="!oppRefused" class="">
-          <h2>Waiting for opponent..</h2>
+          <h2>Waiting for opponent...</h2>
           <br>
           <i class="fa fa-spinner fa-pulse fa-3x fa-fw" style="color: #317eac;"></i>
           <br>
@@ -114,7 +117,7 @@
         </div>
 
         <div *ngIf="oppRefused" class="">
-          <h3>Your opponent is a coward. He rejected your game invitation..</h3>
+          <h3>Too bad! Your opponent rejected your game invitation...</h3>
           <br>
           <button class="btn btn-primary" data-dismiss="modal" (click)="dismissWaitModal()">Ok</button>
         </div>
@@ -128,11 +131,10 @@
     <div class="modal-content">
       <div class="modal-body text-center">
         <h3><strong>{{opponent.username}}</strong> challenged you!</h3>
-        <h4>Are you brave enough?</h4>
         <br>
 
-        <button class="btn btn-primary" data-dismiss="modal" (click)="sendGameResponse(true)">Yes</button>
-        <button class="btn btn-danger" data-dismiss="modal" (click)="sendGameResponse(false)">No</button>
+        <button class="btn btn-primary" data-dismiss="modal" (click)="sendGameResponse(true)">Let's play!</button>
+        <button class="btn btn-danger" data-dismiss="modal" (click)="sendGameResponse(false)">No, thanks</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -160,8 +162,14 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body text-center">
-        <h2 *ngIf="gameInfo.match.player.score == 2">You won!!!</h2>
-        <h2 *ngIf="gameInfo.match.opponent.score == 2">You lost!!!</h2><br />
+        <div *ngIf="gameInfo.match.player.score == 2">
+          <h2>Congratulations!</h2>
+          <h4>You won the match against <strong>{{opponent.username}}</strong>.</h4>
+        </div>
+        <div *ngIf="gameInfo.match.opponent.score == 2">
+          <h2>Better luck next time!</h2>
+          <h4>You lost the match against <strong>{{opponent.username}}</strong>.</h4>
+        </div>
         <button class="btn btn-primary" (click)="dismissEndMatchModal()" data-dismiss="modal">Ok</button>
       </div>
     </div>
