@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -15,7 +16,8 @@ export class ProfileComponent implements OnInit {
 
   constructor(private flashMessage: FlashMessagesService,
               private formBuilder: FormBuilder,
-              private router: Router) { }
+              private router: Router,
+              private authService: AuthService) { }
 
   ngOnInit() {
     // pull user data from backend
@@ -38,10 +40,20 @@ export class ProfileComponent implements OnInit {
   }
 
   onChangePassSubmit() {
-    console.log(this.changePassForm.value);
-    this.flashMessage.show('Password changed successfully.', {cssClass: 'alert-success', timeout: 3000});
-    this.changePassForm.setValue({ oldPass: "", newPass: "" });
     window.scrollTo(0,0);
+
+    const user = this.changePassForm.value;
+    user.id = JSON.parse(localStorage.getItem('user'))._id;
+
+    this.authService.changePassword(user).subscribe(data => {
+      if(data.success){
+        this.flashMessage.show(data.msg, {cssClass: 'alert-success', timeout: 3000});
+      }else{
+        this.flashMessage.show(data.msg, {cssClass: 'alert-danger', timeout: 3000});
+      }
+    });
+
+    this.changePassForm.setValue({ oldPass: "", newPass: "" });
   }
 
   calcLoses(user: any): number {
@@ -57,8 +69,18 @@ export class ProfileComponent implements OnInit {
   }
 
   deleteUser() {
-    this.flashMessage.show('Your account has been deleted.', {cssClass: 'alert-success', timeout: 3000});
-    this.router.navigate(['']);
-    //delete user from back end
+    const user = {
+      id: JSON.parse(localStorage.getItem('user'))._id
+    }
+
+    this.authService.deleteUser(user).subscribe(data => {
+        if(data.success){
+          this.flashMessage.show(data.msg, {cssClass: 'alert-success', timeout: 3000});
+          this.authService.logout();
+          this.router.navigate(['/register']);
+        }else{
+          this.flashMessage.show(data.msg, {cssClass: 'alert-danger', timeout: 3000});
+        }
+      });
   }
 }

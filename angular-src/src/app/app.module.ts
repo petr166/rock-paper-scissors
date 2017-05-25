@@ -18,13 +18,15 @@ import { HomeComponent } from './components/home/home.component';
 import { ValidateService } from './services/validate.service';
 import { GameService } from './services/game.service';
 import { AuthService } from './services/auth.service';
+import { AuthGuard } from './guards/auth.guard';
+import { PreventLoginGuard } from './guards/preventLogin.guard';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'game', component: GameRootComponent },
+  { path: 'profile', component: ProfileComponent, canActivate:[AuthGuard]},
+  { path: 'login', component: LoginComponent, canActivate:[PreventLoginGuard]},
+  { path: 'register', component: RegisterComponent, canActivate:[PreventLoginGuard]},
+  { path: 'game', component: GameRootComponent, canActivate:[AuthGuard]},
   { path: ':other', redirectTo: ''}
 ];
 
@@ -51,7 +53,9 @@ const appRoutes: Routes = [
   providers: [
     ValidateService,
     GameService,
-    AuthService
+    AuthService,
+    AuthGuard,
+    PreventLoginGuard
   ],
   bootstrap: [AppComponent]
 })
