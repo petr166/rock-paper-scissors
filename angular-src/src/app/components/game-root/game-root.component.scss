@@ -297,7 +297,6 @@
 @include keyframes(toggle-player-list) {
   0% {
     @include opacity(0);
-    @include transform(translateX(-220px));
   }
 
   75% {
@@ -319,7 +318,6 @@
 @include keyframes(toggle-match-list) {
   0% {
     @include opacity(0);
-    @include transform(translateX(220px));
   }
 
   75% {
