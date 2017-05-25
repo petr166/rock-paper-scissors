@@ -33,6 +33,7 @@ export class GameRootComponent implements OnInit, OnDestroy {
   private round: any;
   private gameInfo: any = {};
   private matchOn: boolean;
+  private dropAnimation: boolean;
 
   constructor(
     private _gameService: GameService,
@@ -146,7 +147,7 @@ export class GameRootComponent implements OnInit, OnDestroy {
       }else{
         this.oppChoice = 'rock';
       }
-    }, 500);
+    }, 200);
   }
 
   onPlayersClick(): void {
@@ -169,6 +170,7 @@ export class GameRootComponent implements OnInit, OnDestroy {
     let subscription = this._gameService.receiveGameResponse()
       .subscribe(data => {
         console.log("got response:", data);
+        this.showPlayerList = !this.showPlayerList;
         if (data.accepted == true) {
           this.dismissWaitModal();
           this._gameService.sendJoinRequest(data.room);
@@ -244,21 +246,28 @@ export class GameRootComponent implements OnInit, OnDestroy {
 
   resetRound(): void {
     if(this.round.ended == true) {
-      this.showEndMatchModal = true;
+      setTimeout(() => {
+        this.showEndMatchModal = true;
+      }, 1000);
     } else {
       setTimeout(()=>{
         this.resultColor = '#ffffff';
         this.initializeChoices();
-    }, 3000);
+    }, 2000);
     }
   }
 
   endMatch():void {
-    this.resultColor = '#ffffff';
-    this.matchOn = false;
-    this.initializeChoices();
-    this.receiveLeaveMatchObs.unsubscribe();
+    this.dropAnimation = !this.dropAnimation;
     this.gameInfo = {};
+
+    setTimeout(() => {
+      this.resultColor = '#ffffff';
+      this.matchOn = false;
+      this.dropAnimation = !this.dropAnimation;
+      this.initializeChoices();
+      this.receiveLeaveMatchObs.unsubscribe();
+    }, 300);
   }
 
   dismissWaitModal(): void {

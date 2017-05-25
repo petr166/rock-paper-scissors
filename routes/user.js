@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/user');
 const config = require('../config/database');
 const jwt = require('jsonwebtoken');
+const passport = require('passport');
 
 
 // POST "/register"
@@ -15,7 +16,7 @@ router.post("/register", (req, res, next) => {
     username: body.username,
     email: body.email,
     password: body.password,
-    avatar: "https://api.adorable.io/avatars/140/abott@adorable.png",
+    avatar: "https://api.adorable.io/avatars/140/" + body.username + "@adorable.png",
     played: 0,
     wins: 0,
     matches: []
@@ -84,11 +85,9 @@ router.get("/profile/:id", (req, res, next) => {
 
 
 // POST "/update-password"
-router.post("/update-password", (req, res, next) => {
+router.post("/update-password", passport.authenticate("jwt", {session: false}), (req, res, next) => {
   let body = req.body;
   let response = {success: false};
-
-  // TODO make sure the requester tries to update his own pass
 
   if (body.oldPass == body.newPass) {
     response.msg = "The new password must not match the old one";
@@ -113,11 +112,9 @@ router.post("/update-password", (req, res, next) => {
 
 
 // POST "/remove"
-router.post("/remove", (req, res, next) => {
+router.post("/remove", passport.authenticate("jwt", {session: false}), (req, res, next) => {
   let body = req.body;
   let response = {success: false};
-
-  // TODO make sure the requester tries to remove his own account
 
   User.removeUser(body.id, (err, removedUser) => {
     if (err || !removedUser) {
@@ -132,7 +129,6 @@ router.post("/remove", (req, res, next) => {
       res.json(response);
     }
   });
-
 });
 
 
