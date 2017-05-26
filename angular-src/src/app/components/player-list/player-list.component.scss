@@ -28,6 +28,7 @@ a:hover, a:focus {
 
 ul{
   border-radius: 10px;
+  margin-bottom: 0px;
   @include box-shadow($x: 0px, $y: 0px, $blur: 10px, $color: #888888);
 }
 .ul-heading{
@@ -52,6 +53,14 @@ ul{
       h4{
         font-size: 17px;
       }
+    }
+  }
+}
+
+@media screen and (min-width: 767.99px) and (max-width: 900px){
+  .ul-body{
+    .list-group-item {
+      font-size: 11px;
     }
   }
 }
