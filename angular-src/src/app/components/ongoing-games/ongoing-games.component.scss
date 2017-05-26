@@ -27,3 +27,11 @@ ul{
     }
   }
 }
+
+@media screen and (min-width: 767.99px) and (max-width: 900px){
+  .ul-body{
+    .list-group-item {
+      font-size: 11px;
+    }
+  }
+}
