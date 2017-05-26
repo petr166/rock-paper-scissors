@@ -131,7 +131,7 @@
         <br>
 
         <button class="btn btn-primary" data-dismiss="modal" (click)="sendGameResponse(true)">Let's play!</button>
-        <button class="btn btn-danger" data-dismiss="modal" (click)="sendGameResponse(false)">No, thanks</button>
+        <button class="btn" data-dismiss="modal" (click)="sendGameResponse(false)">No, thanks</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -161,11 +161,11 @@
       <div class="modal-body text-center">
         <div *ngIf="gameInfo.match.player.score == 2">
           <h2>Congratulations!</h2>
-          <h4>You won the match against <strong>{{opponent.username}}</strong>.</h4>
+          <h4>You won the match against <strong>{{gameInfo.match.opponent.username}}</strong>.</h4>
         </div>
         <div *ngIf="gameInfo.match.opponent.score == 2">
           <h2>Better luck next time!</h2>
-          <h4>You lost the match against <strong>{{opponent.username}}</strong>.</h4>
+          <h4>You lost the match against <strong>{{gameInfo.match.opponent.username}}</strong>.</h4>
         </div>
         <button class="btn btn-primary" (click)="dismissEndMatchModal()" data-dismiss="modal">Ok</button>
       </div>
