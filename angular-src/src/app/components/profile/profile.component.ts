@@ -26,11 +26,11 @@ export class ProfileComponent implements OnInit {
     // pull user data from backend
     this.authService.getProfile(id).subscribe(profile => {
       this.user = profile.user;
+      this.user.loses = this.calcLoses(this.user);
+      this.user.winRatio = this.calcWinRatio(this.user);
     }, err => {
       return false;
     });
-    this.user.loses = this.calcLoses(this.user);
-    this.user.winRatio = this.calcWinRatio(this.user);
 
     this.changePassForm = this.formBuilder.group({
       oldPass: ['', Validators.required],
@@ -61,9 +61,12 @@ export class ProfileComponent implements OnInit {
   }
 
   calcWinRatio(user: any): string {
-    let ratio = "";
-    ratio += user.wins/user.played * 100;
-    ratio += "%";
+    let ratioNum = (user.wins / user.played) * 100;
+    ratioNum = 20;
+    if (isNaN(ratioNum)) {
+      return "0%";
+    }
+    let ratio = "" + ratioNum + "%";
     return ratio;
   }
 
