@@ -102,7 +102,7 @@ UserSchema.statics.removeUser = (id, callback) => {
       let error = {msg: "The user account could not be found"};
       callback(error);
       return;
-    } 
+    }
     else {
       user.password = "!private";
       callback(null, user);
@@ -190,6 +190,28 @@ UserSchema.statics.updateUserPassword = (id, oldPass, newPass, callback) => {
         }
       });
     }
+  });
+};
+
+UserSchema.statics.addMatchData = (username, matchId, winner, callback) => {
+  User.getUserByUsername(username, (err, user) => {
+    if (err) {
+      console.error(err);
+      callback(err);
+      return;
+    } else if (!user) {
+      let error = {msg: "The user could not be found"};
+      callback(error);
+      return;
+    }
+
+    user.matches.push(matchId);
+    user.played++;
+    if (winner == user.username) {
+      user.wins++;
+    }
+
+    user.save(callback);
   });
 };
 

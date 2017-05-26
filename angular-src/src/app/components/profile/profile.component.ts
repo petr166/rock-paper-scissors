@@ -62,11 +62,10 @@ export class ProfileComponent implements OnInit {
 
   calcWinRatio(user: any): string {
     let ratioNum = (user.wins / user.played) * 100;
-    ratioNum = 20;
     if (isNaN(ratioNum)) {
       return "0%";
     }
-    let ratio = "" + ratioNum + "%";
+    let ratio = "" + ratioNum.toFixed(1) + "%";
     return ratio;
   }
 

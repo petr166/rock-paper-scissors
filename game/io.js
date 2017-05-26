@@ -1,4 +1,6 @@
 const socketIo = require('socket.io');
+const Match = require('../models/match');
+const User = require('../models/user');
 
 // arrays to store the dynamic data
 const users = [];
@@ -133,6 +135,7 @@ const initialize = (server) => {
         if (match.player1.choice.length > 0 && match.player2.choice.length > 0) { // both users chosen
           let winner = checkWinner(match.player1.choice, match.player2.choice);
           let winnerName = 0;
+          let matchWinner = "";
 
           if (winner != 0) {
             switch (winner) {
@@ -151,8 +154,12 @@ const initialize = (server) => {
           }
 
           let ended = false;
-          if (match.player1.score == 2 || match.player2.score == 2) {
+          if (match.player1.score == 2) {
             ended = true;
+            matchWinner = match.player1.username;
+          } else if (match.player2.score == 2) {
+            ended = true;
+            matchWinner = match.player2.username;
           }
 
           let emitData = {
@@ -171,8 +178,44 @@ const initialize = (server) => {
           io.emit("active-matches", {matches: matches});
           console.log("round end:", emitData);
 
-          // the match ended
-          if (ended == true) {
+          if (ended == true) { // the match ended
+            // save the match in db
+            let dbMatch = new Match({
+              winner: matchWinner,
+              player1: {
+                username: match.player1.username,
+                score: match.player1.score
+              },
+              player2: {
+                username: match.player2.username,
+                score: match.player2.score
+              }
+            });
+
+            Match.addMatch(dbMatch, (err, addedMatch) => {
+              if (err || !addedMatch) {
+                console.error(err);
+              } else { // the match was saved succesfully
+                console.log("added match to db:", addedMatch);
+                // update the users match data
+                User.addMatchData(addedMatch.player1.username, addedMatch._id, addedMatch.winner, (err, updatedUser) => {
+                  if (err || !updatedUser) {
+                    console.error("user match data could not be updated:", addedMatch.player1.username);
+                  } else {
+                    console.log("user match data updated:", addedMatch.player1.username);
+                  }
+                });
+
+                User.addMatchData(addedMatch.player2.username, addedMatch._id, addedMatch.winner, (err, updatedUser) => {
+                  if (err || !updatedUser) {
+                    console.error("user match data could not be updated:", addedMatch.player2.username);
+                  } else {
+                    console.log("user match data updated:", addedMatch.player2.username);
+                  }
+                });
+              }
+            });
+
             endMatch(match);
             io.emit("active", {active: users});
             io.emit("active-matches", {matches: matches});
