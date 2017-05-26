@@ -11,9 +11,9 @@ import { AuthService } from "../../services/auth.service";
 })
 
 export class GameRootComponent implements OnInit, OnDestroy {
-  private username: string;
+  private user: any;
   private choices: string[];
-  private oppRefused: boolean = false;
+  private oppRefused: boolean;
   private oppChoice: string;
   private resultColor: string = '#ffffff';
   private showPlayerList: boolean;
@@ -44,6 +44,7 @@ export class GameRootComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.initializeChoices();
     this.oppChoice = '';
+    this.oppRefused = false;
     this.showPlayerList = false;
     this.showMatchList = false;
     this.showWaitModal = false;
@@ -51,9 +52,8 @@ export class GameRootComponent implements OnInit, OnDestroy {
     this.showEndMatchModal = false;
     this.showLeaveMatchModal = false;
 
-    // this.username = "petru"; // we will use _authService to get the credentials
-    this.username = this._authService.getUser().username || "petru";
-    this._gameService.connect(this.username);
+    this.user = this._authService.getUserData();
+    this._gameService.connect(this.user.username);
     this.initReceivers();
   }
 
@@ -105,7 +105,7 @@ export class GameRootComponent implements OnInit, OnDestroy {
 
   // TODO: use transitions to change from one state to the other
   selectChoice(choice: string){
-    this.sendChoice(this.match.room, this.username, choice);
+    this.sendChoice(this.match.room, this.user.username, choice);
 
     this.receiveRoundResObs = this._gameService.receiveRoundResult()
       .subscribe(data => {
@@ -198,7 +198,7 @@ export class GameRootComponent implements OnInit, OnDestroy {
       "opponent": {}
     };
 
-    if(this.username == this.match.player1.username) {
+    if(this.user.username == this.match.player1.username) {
       match.player = this.match.player1;
       match.opponent = this.match.player2;
     } else {
@@ -220,7 +220,7 @@ export class GameRootComponent implements OnInit, OnDestroy {
     if(this.round.winner == 0) {
       this.resultColor = '#033c73';
     } else {
-      if (this.username == this.round.winner){
+      if (this.user.username == this.round.winner){
         this.resultColor = '#73a839';
         this.gameInfo.match.player.score++;
       } else {

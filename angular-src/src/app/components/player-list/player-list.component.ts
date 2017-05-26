@@ -19,7 +19,7 @@ export class PlayerListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.initReceivers();
     this._gameService.sendGetActive();
-    this.username = this._authService.getUser().username || "petru";
+    this.username = this._authService.getUserData().username;
   }
 
   ngOnDestroy() {

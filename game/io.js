@@ -256,7 +256,6 @@ const initialize = (server) => {
 
 
 // helper functions
-
 const searchUser = (username) => {
   for (user of users) {
     if (user.username == username) {

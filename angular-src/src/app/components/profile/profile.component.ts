@@ -12,6 +12,7 @@ import { AuthService } from '../../services/auth.service';
 
 export class ProfileComponent implements OnInit {
   user: any;
+  userId: string;
   changePassForm: FormGroup;
 
   constructor(private flashMessage: FlashMessagesService,
@@ -21,10 +22,10 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.user = {};
-    const id = JSON.parse(localStorage.getItem('user'))._id;
+    this.userId = this.authService.getUserData()._id;
 
     // pull user data from backend
-    this.authService.getProfile(id).subscribe(profile => {
+    this.authService.getProfile(this.userId).subscribe(profile => {
       this.user = profile.user;
       this.user.loses = this.calcLoses(this.user);
       this.user.winRatio = this.calcWinRatio(this.user);
@@ -41,10 +42,10 @@ export class ProfileComponent implements OnInit {
   onChangePassSubmit() {
     window.scrollTo(0,0);
 
-    const user = this.changePassForm.value;
-    user.id = JSON.parse(localStorage.getItem('user'))._id;
+    const data = this.changePassForm.value;
+    data.id = this.userId;
 
-    this.authService.changePassword(user).subscribe(data => {
+    this.authService.changePassword(data).subscribe(data => {
       if(data.success){
         this.flashMessage.show(data.msg, {cssClass: 'alert-success', timeout: 3000});
       }else{
@@ -70,11 +71,9 @@ export class ProfileComponent implements OnInit {
   }
 
   deleteUser() {
-    const user = {
-      id: JSON.parse(localStorage.getItem('user'))._id
-    }
+    let data = {id: this.userId};
 
-    this.authService.deleteUser(user).subscribe(data => {
+    this.authService.deleteUser(data).subscribe(data => {
         if(data.success){
           this.flashMessage.show(data.msg, {cssClass: 'alert-success', timeout: 3000});
           this.authService.logout();
