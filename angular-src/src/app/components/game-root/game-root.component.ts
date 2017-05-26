@@ -34,6 +34,7 @@ export class GameRootComponent implements OnInit, OnDestroy {
   private gameInfo: any = {};
   private matchOn: boolean;
   private dropAnimation: boolean;
+  private choiceDisabled: boolean;
 
   constructor(
     private _gameService: GameService,
@@ -106,6 +107,7 @@ export class GameRootComponent implements OnInit, OnDestroy {
   // TODO: use transitions to change from one state to the other
   selectChoice(choice: string){
     this.sendChoice(this.match.room, this.username, choice);
+    this.choiceDisabled = !this.choiceDisabled;
 
     this.receiveRoundResObs = this._gameService.receiveRoundResult()
       .subscribe(data => {
@@ -247,10 +249,12 @@ export class GameRootComponent implements OnInit, OnDestroy {
   resetRound(): void {
     if(this.round.ended == true) {
       setTimeout(() => {
+        this.choiceDisabled = !this.choiceDisabled;
         this.showEndMatchModal = true;
       }, 1000);
     } else {
       setTimeout(()=>{
+        this.choiceDisabled = !this.choiceDisabled;
         this.resultColor = '#ffffff';
         this.initializeChoices();
     }, 2000);

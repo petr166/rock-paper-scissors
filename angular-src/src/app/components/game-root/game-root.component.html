@@ -59,15 +59,15 @@
       </div>
 
       <div *ngIf="matchOn" class="choices-container"  [ngClass]="{'add-choices': matchOn, 'drop-choices': dropAnimation}">
-        <div *ngFor="let choice of choices;" (click)="selectChoice(choice)" class="btn btn-warning box">
+        <div *ngFor="let choice of choices;" (click)="!choiceDisabled && selectChoice(choice)" class="btn btn-warning box"  [ngClass]="{'choice-disabled': choiceDisabled}">
           <i class="fa fa-hand-{{choice}}-o fa-5x myChoices" aria-hidden="true"></i>
         </div>
 
-       <div id="vsBox" *ngIf="choices.length == 1" class="btn btn-warning box">
+       <div id="vsBox" *ngIf="choices.length == 1" class="btn btn-warning box" [ngClass]="{'choice-disabled': true}">
           <i class="fa fa-arrows-h fa-5x" aria-hidden="true"></i>
         </div>
 
-       <div *ngIf="choices.length == 1" class="btn btn-warning box">
+       <div *ngIf="choices.length == 1" class="btn btn-warning box" [ngClass]="{'choice-disabled': true}">
           <i class="fa fa-hand-{{oppChoice}}-o fa-5x" aria-hidden="true"></i>
         </div>
       </div>
