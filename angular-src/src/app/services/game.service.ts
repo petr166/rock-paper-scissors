@@ -19,9 +19,7 @@ export class GameService {
     this.socket = io(this.serverUrl);
 
     this.socket.on("connect", () => {
-      // this.sendUser(username);
       console.log("connected to the game server");
-
       this.sendUser(username);
       callback();
     });

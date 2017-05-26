@@ -40,8 +40,6 @@ export class ProfileComponent implements OnInit {
   }
 
   onChangePassSubmit() {
-    window.scrollTo(0,0);
-
     const data = this.changePassForm.value;
     data.id = this.userId;
 
@@ -53,6 +51,7 @@ export class ProfileComponent implements OnInit {
       }
     });
 
+    window.scrollTo(0,0);
     this.changePassForm.setValue({ oldPass: "", newPass: "" });
   }
 

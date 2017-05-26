@@ -19,7 +19,6 @@ export class GameRootComponent implements OnInit, OnDestroy {
   private showPlayerList: boolean;
   private showMatchList: boolean;
   private choiceInterval; // automatically toggle oppChoices until he chooses one
-  private receiveWelcomeObs: any;
   private receiveGameReqObs: any;
   private receiveMatchObs: any;
   private receiveRoundResObs: any;
@@ -63,16 +62,10 @@ export class GameRootComponent implements OnInit, OnDestroy {
   }
 
   destroyReceivers(): void {
-    this.receiveWelcomeObs.unsubscribe();
     this.receiveGameReqObs.unsubscribe();
   }
 
   initReceivers(): void {
-    this.receiveWelcomeObs = this._gameService.receiveWelcome()
-      .subscribe(data => {
-        console.log(data.message);
-      });
-
     this.receiveGameReqObs = this._gameService.receiveGameRequest()
       .subscribe(data => {
         console.log("game request:", data);
