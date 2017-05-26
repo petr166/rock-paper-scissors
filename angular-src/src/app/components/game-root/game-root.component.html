@@ -36,12 +36,9 @@
 
         <div class="box message-box">
           <div class="jumbotron" [ngStyle]="{'background-color': resultColor, 'transition': 'background-color 0.3s'}">
-            <h4 *ngIf="!matchOn">Please choose an opponent from the left</h4>
+            <h4 *ngIf="!matchOn" class="choose-opp">Please choose an opponent from the left</h4>
             <ng-container *ngIf="matchOn">
-              <div *ngIf="resultColor == '#ffffff'">
-                <h4>GAME ON</h4>
-                <p>Place your choice</p>
-              </div>
+              <h4 *ngIf="resultColor == '#ffffff'">GAME ON</h4>
               <h4 *ngIf="resultColor == '#73a839'" class="result-div">YOU WIN</h4>
               <h4 *ngIf="resultColor == '#c71c22'" class="result-div">YOU LOSE</h4>
               <h4 *ngIf="resultColor == '#033c73'" class="result-div">YOU TIED</h4>
